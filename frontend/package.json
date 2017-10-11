@@ -1,0 +1,59 @@
+{
+  "name": "willproject",
+  "version": "0.0.0",
+  "description": "Will Porject Frontend",
+  "dependencies": {
+    "bcryptjs": "^2.3.0",
+    "crypto-js": "^3.1.2",
+    "jquery": "^2.2.0",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.0",
+    "redux": "^3.5.2",
+    "redux-thunk": "^1.0.0",
+    "antd": "^1.6.4",
+    "recharts": "^0.12.3"
+  },
+  "devDependencies": {
+    "appcache-webpack-plugin": "^1.2.0",
+    "autoprefixer": "^6.0.2",
+    "autoprefixer-loader": "git://github.com/3sv/autoprefixer-loader",
+    "babel": "^5.8.23",
+    "babel-core": "^5.8.24",
+    "babel-eslint": "^4.1.2",
+    "babel-loader": "^5.3.2",
+    "babel-plugin-react-transform": "^1.0.5",
+    "css-loader": "^0.9.1",
+    "cssnano": "^3.0.1",
+    "eslint": "^1.4.1",
+    "eslint-config-airbnb": "1.0.0",
+    "eslint-plugin-react": "^3.3.2",
+    "file-loader": "^0.8.4",
+    "html-webpack-plugin": "^1.6.1",
+    "json-loader": "^0.5.2",
+    "object.assign": "^4.0.1",
+    "less": "^2.2.0",
+    "less-loader": "git://github.com/3sv/less-loader",
+    "postcss-focus": "^1.0.0",
+    "postcss-import": "^7.0.0",
+    "postcss-loader": "^0.8.0",
+    "postcss-reporter": "^1.2.1",
+    "postcss-simple-vars": "^1.0.0",
+    "react-transform-hmr": "^1.0.1",
+    "style-loader": "^0.13.0",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.12.1",
+    "webpack-dev-server": "^1.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "scripts": {
+    "clean": "rm -rf ./build/static/* && rm -rf ./build/templates/*",
+    "build": "NODE_ENV=production webpack --config webpack.config.js --progress --colors"
+  },
+  "author": "Golion",
+  "license": "WTFPL"
+}

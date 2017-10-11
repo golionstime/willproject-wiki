@@ -1,0 +1,158 @@
+@import 'variables';
+
+html {
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: @white;
+}
+
+body {
+  font-family: @text-font-stack;
+  background-color: @very-light-grey;
+  overflow-y: scroll;
+  font-size: @base-font-size;
+}
+
+body.js-open-sans-loaded {
+  font-family: "Open Sans", @text-font-stack;
+}
+
+.stage {
+  text-align: center;
+  margin: 0 auto;
+  background-color: @very-light-grey;
+  border-radius: 0;
+}
+
+.main {
+  background-color: @white;
+}
+
+.wrap {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+  padding: 0;
+  text-align: center;
+  background-color: @white;
+}
+
+@media screen and (min-width: @max-width) {
+
+  .wrap {
+    max-width: @max-width;
+  }
+
+}
+
+hr {
+  background-color: @very-light-grey;
+  width: 100%;
+  height: 1px;
+  margin: 5px 0;
+  border: 0;
+}
+
+.content-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.content {
+  padding: 10px 20px;
+}
+
+.content p {
+  margin: 10px 0;
+}
+
+.pc .mobile-clear-both {
+  display: none;
+}
+
+.mobile .mobile-clear-both {
+  clear: both;
+}
+
+.small-wrap { 
+  float: left; 
+  text-align: center; 
+  padding: 10px; 
+  background-color: @white;
+}
+
+.pc .small-wrap {
+  width: 33.33%;
+}
+
+@media screen and (min-width: 640px) {
+
+  .pc .small-wrap {
+    width: 16.66%;
+  }
+
+}
+
+@media screen and (min-width: 960px) {
+
+  .pc .small-wrap {
+    width: 11.11%;
+  }
+
+}
+
+.mobile .small-wrap {
+  width: 33.33%;
+}
+
+.small-wrap p {
+  font-size: small;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.small-wrap img {
+  width: 80px;
+  height: 80px;
+}
+
+.small-wrap:hover {
+  background-color: @almost-white;
+}
+
+
+table tr th {
+  font-weight: bold;
+  padding: 2px 5px;
+}
+
+table tr td {
+  font-weight: normal;
+  padding: 2px 5px;
+}
+
+table, th, td {
+  border: solid 0px @lighter-grey;
+}
+
+table {
+  border-width: 1px 0px 0px 1px;
+}
+
+th, td { 
+  border-width: 0px 1px 1px 0px;
+}

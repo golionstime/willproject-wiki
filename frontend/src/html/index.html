@@ -1,0 +1,63 @@
+$def with (DATA)
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Will Project Wiki</title>
+    <link rel="icon" type="image/png" href="$DATA['HOST']/favicon.ico"/>
+    <script type="text/javascript">const DATA = $:DATA; </script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/react/15.2.0/react-with-addons.min.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/react/15.2.0/react-dom.min.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/antd/1.6.4/antd.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://cdn.bootcss.com/antd/1.6.4/antd.min.css"/>
+    <script type="text/javascript" src="$DATA['HOST']/static/js/base.bundle.js"></script>
+</head>
+<body>
+<div class="stage">
+    <script>
+        if (wp.base.BROWSER_TYPE) { $$(".stage").addClass("mobile"); }
+        else { $$(".stage").addClass("pc"); }
+    </script>
+    <div class="main wrap" id="main">
+        <div class="nav" id="nav" style="min-height:139px;"></div>
+        <div class="content" style="text-align:left;">
+            <script> $$(".content").css("minHeight", wp.base.WINDOW_HEIGHT-220); </script>
+            <p style="font-size:large;font-weight:bold;">「WILL PROJECT」</p>
+            <p>是一个TRPG规则以及完整的世界观。本企画构建了一个虚拟的剑与魔法与科技并存的世界，任何参与者对自己幻想中的一切世界元素进行设定：人物、种族、国家、魔法、科技、文化、历史乃至世界观和整个故事。</p>
+            <p>
+                <span>所有参与者需要遵守</span>
+                <span><a href="/page/世界观设定三原则">世界观设定三原则</a></span>
+                <span>。</span>
+            </p>
+            <p>
+                <span>想要了解累积的设定，可以从这个世界的</span>
+                <span><a href="/page/地图">地图</a></span>
+                <span>、</span>
+                <span><a href="/page/种族">种族</a></span>
+                <span>、</span>
+                <span><a href="/page/国家">国家</a></span>
+                <span>、</span>
+                <span><a href="/page/组织">组织</a></span>
+                <span>、</span>
+                <span><a href="/page/历史">历史</a></span>
+                <span>和</span>
+                <span><a href="/characters">人物</a></span>
+                <span>开始。</span>
+            </p>
+        </div>
+        <hr/>
+        <p style="padding:10px;">
+          <a href="/page/联系我们" title="联系我们" target="_blank" style="font-size:small;">联系我们</a>
+          <span style="margin:0 10px;"></span>
+          <a href="/history" title="更新历史" target="_blank" style="font-size:small;">更新历史</a>
+          <span style="margin:0 10px;"></span>
+          <a href="http://willproject.wikia.com" title="旧Wiki" target="_blank" style="font-size:small;">旧Wiki</a>
+        </p>
+    </div>
+</div>
+<script>wp.base.calcWindowHeight();</script>
+</body>
+<script type="text/javascript" src="$DATA['HOST']/static/js/nav.bundle.js"></script>
+</html>

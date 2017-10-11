@@ -1,0 +1,32 @@
+$def with (DATA)
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>上传图片 - Will Project Wiki</title>
+    <link rel="icon" type="image/png" href="$DATA['HOST']/favicon.ico"/>
+    <script type="text/javascript">const DATA = $:DATA; </script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/react/15.2.0/react-with-addons.min.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/react/15.2.0/react-dom.min.js"></script>
+    <script type="text/javascript" src="http://cdn.bootcss.com/antd/1.6.4/antd.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="http://cdn.bootcss.com/antd/1.6.4/antd.min.css"/>
+    <script type="text/javascript" src="$DATA['HOST']/static/js/base.bundle.js"></script>
+</head>
+<body>
+<div class="stage">
+    <script>
+        if (wp.base.BROWSER_TYPE) { $$(".stage").addClass("mobile"); }
+        else { $$(".stage").addClass("pc"); }
+    </script>
+    <div class="main wrap" id="main">
+        <div class="nav" id="nav" style="min-height:139px;"></div>
+        <div class="content" id="content"></div>
+    </div>
+</div>
+<script>wp.base.calcWindowHeight();</script>
+</body>
+<script type="text/javascript" src="$DATA['HOST']/static/js/nav.bundle.js"></script>
+<script type="text/javascript" src="$DATA['HOST']/static/js/uploadimg.bundle.js"></script>
+</html>
