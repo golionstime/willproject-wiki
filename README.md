@@ -1,7 +1,7 @@
 
 ![Image](frontend/static/img/wp-banner.png)
 
-[http://willproject.cn](http://willproject.cn)
+本项目为[http://willproject.cn](http://willproject.cn)的源码。
 
 ----
 
