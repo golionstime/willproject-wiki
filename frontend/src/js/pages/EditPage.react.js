@@ -66,6 +66,7 @@ class EditPage extends Component {
         Data.setItem("final-skills", data.data.skills);
         Data.setItem("final-equips", data.data.equips);
         Data.setItem("final-items", data.data.items);
+        Data.setItem("original-objs", data.data.originalObjs);
         Data.setItem("price-sum", data.data.priceSum);
         Data.setItem("weight-sum", data.data.weightSum);
         Data.setItem("profession-target-keys", data.data.edit.professionTargetKeys);
@@ -157,7 +158,7 @@ class EditPage extends Component {
       errorMsg: "",
       loading: true
     });
-    CardService.update(DATA.CARD_ID, Build.toJsonOby(), (status) => {
+    CardService.update(DATA.CARD_ID, Build.toJsonObj(), (status) => {
       if (status) {
         this.setState({
           errorMsg: "更新成功",
@@ -227,7 +228,7 @@ class EditPage extends Component {
         ) : (
           <noscript/>
         )}
-        { this.state.step == 4 ? (
+        { this.state.step === 4 ? (
           <Button style={{margin:10}} onClick={ this._edit.bind(this) } loading={ this.state.loading }>更新卡片</Button>
         ) : (
           <noscript/>
@@ -236,7 +237,7 @@ class EditPage extends Component {
     );
     let errorMsg = (
       <div>
-        { this.state.errorMsg != "" ? (
+        { this.state.errorMsg !== "" ? (
           <p style={{color:"red",margin:15}}>{ this.state.errorMsg }</p>
         ) : (
           <noscript/>

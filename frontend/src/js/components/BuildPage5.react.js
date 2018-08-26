@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import jQuery from 'jquery';
-import { InputNumber, Transfer, Popover, Checkbox, Icon, Button } from 'antd';
+import { Tag, Modal, Transfer, Popover, Icon, Button, Input, InputNumber, Checkbox } from 'antd';
 const CheckboxGroup = Checkbox.Group;
 import Data from '../services/Data';
 import Build from '../services/Build';
@@ -16,6 +16,10 @@ class BuildPage5 extends Component {
     this.state = {
       mockData: [],
       targetKeys: [],
+      originalObjModal: {
+        showModal: false,
+        title: ''
+      },
       refresh: false // 用于页面刷新
     };
   }
@@ -36,8 +40,8 @@ class BuildPage5 extends Component {
     for (let i=0; i<Data.getItem('equip-class-list').length; i++) {
       let hasKey = false;
       for (let j=0; j<storagedTargetKeys.length; j++) {
-        if (storagedTargetKeys[j] == "") continue;
-        if (storagedTargetKeys[j] == i) {
+        if (storagedTargetKeys[j] === "") continue;
+        if (storagedTargetKeys[j] === i) {
           hasKey = true;
           break;
         }
@@ -73,7 +77,7 @@ class BuildPage5 extends Component {
 
   _inArray(value, array) {
     for (let i=0; i<array.length; i++) {
-      if (array[i] == value) return true;
+      if (array[i] === value) return true;
     }
     return false;
   }
@@ -83,6 +87,86 @@ class BuildPage5 extends Component {
       Build.setExtraEquipAmount(classId, equipId, add);
       this.setState({refresh: true});
     }
+  }
+
+  // index=-1: 添加
+  // index>=0: 编辑
+  _openOriginalObjModal(index) {
+    let _this = this;
+    return () => {
+      if (index < 0) {
+        _this.setState({
+          originalObjModal: {
+            showModal: true,
+            mode: 'add',
+            title: '新建原创物品',
+            name: '',
+            weight: 0.0,
+            price: 0,
+            displayPrice: Build.getPriceDescription(0),
+          }
+        });
+      } else {
+        let originalObjs = Data.getItem("original-objs").split(",");
+        let originalObj = Build.parseOriginalObj(originalObjs[index]);
+        _this.setState({
+          originalObjModal: {
+            showModal: true,
+            mode: 'edit',
+            title: '编辑原创物品',
+            name: originalObj.name,
+            weight: originalObj.weight,
+            price: originalObj.price,
+            displayPrice: originalObj.displayPrice,
+            index: index
+          }
+        });
+      }
+    }
+  }
+
+  _closeOriginalObjModal() {
+    this.setState({
+      originalObjModal: {
+        showModal: false,
+        title: ''
+      }
+    });
+  }
+
+  _changeOriginalObjModalProp(prop) {
+    let _this = this;
+    return (e) => {
+      let newModal = _this.state.originalObjModal;
+      if (typeof(e.target) !== "undefined") {
+        newModal[prop] = e.target.value;
+      } else {
+        newModal[prop] = e;
+      }
+      if (prop === "price") {
+        newModal["displayPrice"] = Build.getPriceDescription(newModal["price"]);
+      }
+      _this.setState({
+        originalObjModal: newModal
+      });
+    }
+  }
+
+  _submitOriginalObjModal() {
+    let modalData = this.state.originalObjModal;
+    if (modalData.mode === "add") {
+      Build.addOriginalObj(modalData.name, modalData.weight, modalData.price);
+    }
+    if (modalData.mode === "edit") {
+      Build.editOriginalObj(modalData.index, modalData.name, modalData.weight, modalData.price);
+    }
+    this._closeOriginalObjModal.bind(this)();
+  }
+
+  _deleteOriginalObjModal() {
+    let modalData = this.state.originalObjModal;
+    Build.deleteOriginalObj(modalData.index);
+    this._closeOriginalObjModal.bind(this)();
   }
 
   render() {
@@ -99,6 +183,7 @@ class BuildPage5 extends Component {
 
     let priceSum = 0;
     let weightSum = 0.0;
+    // 遍历已选装备列表
     for (let i=0; i<selectedEquips.length; i++) {
       if (this._inArray(selectedEquips[i].name, customEquips)) {
         let classId = selectedEquips[i].classid;
@@ -113,7 +198,7 @@ class BuildPage5 extends Component {
             { minusAble ? (
               <Button style={{width:30}} size="small" onClick={ this._changeExtraEquip(classId, equipId, false).bind(this) }>-</Button>
             ) : (
-              <div style={{display:"inline-block",width:30,height:22}}></div>
+              <div style={{display:"inline-block",width:30,height:22}}/>
             )}
             <div style={{display:"inline-block",margin:5,width:200,fontSize:"small"}}>
               <span style={{color:"red"}}>{ equipName }</span>
@@ -126,6 +211,7 @@ class BuildPage5 extends Component {
         finalEquipList.push(equipName + "|" + ( extraAmount + 1 ));
       }
     }
+    // 遍历已选道具列表
     for (let i=0; i<Data.getItem("item").length; i++) {
       if (this._inArray(Data.getItem("item")[i].name, customItems)) {
         let classId = 9999;
@@ -140,7 +226,7 @@ class BuildPage5 extends Component {
             { minusAble ? (
               <Button style={{width:30}} size="small" onClick={ this._changeExtraEquip(classId, itemId, false).bind(this) }>-</Button>
             ) : (
-              <div style={{display:"inline-block",width:30,height:22}}></div>
+              <div style={{display:"inline-block",width:30,height:22}}/>
             )}
             <div style={{display:"inline-block",margin:5,width:200,fontSize:"small"}}>
               <span style={{color:"red"}}>{ itemName }</span>
@@ -153,14 +239,74 @@ class BuildPage5 extends Component {
         finalItemList.push(itemName + "|" + ( extraAmount + 1 ));
       }
     }
+    // 遍历自定义物品列表
+    let originalObjList = [];
+    if (Data.getItem("original-objs").trim() !== "") {
+      let originalObjs = Data.getItem("original-objs").split(",");
+      for (let i=0; i<originalObjs.length; i++) {
+        let index = i;
+        let originalObj = Build.parseOriginalObj(originalObjs[i]);
+        originalObjList.push(
+          <Tag
+            style={{ margin: 5 }}
+            onClick={ this._openOriginalObjModal(index).bind(this) }>{ originalObj.name }
+          </Tag>
+        );
+        priceSum += originalObj.price;
+        weightSum += originalObj.weight;
+      }
+    }
 
     Data.setItem("price-sum", priceSum);
     Data.setItem("weight-sum", weightSum);
     Data.setItem("final-equips", finalEquipList.join(","));
     Data.setItem("final-items", finalItemList.join(","));
+    let modalData = this.state.originalObjModal;
 
     return (
       <div>
+        <Modal
+          title={ modalData.title }
+          visible={ modalData.showModal }
+          onCancel={ this._closeOriginalObjModal.bind(this) }
+          footer={ null }
+        >
+          <div style={{ marginBottom: 5}}>
+            名称:
+            <Input
+              style={{ width: 200, marginLeft: 10 }} value={ modalData.name }
+              onChange={ this._changeOriginalObjModalProp("name").bind(this) } />
+          </div>
+          <div style={{ marginBottom: 5}}>
+            重量:
+            <InputNumber
+              style={{ width: 200, marginLeft: 10 }} min={ 0 } step={ 0.01 } value={ modalData.weight }
+              onChange={ this._changeOriginalObjModalProp("weight").bind(this) } />
+            KG
+          </div>
+          <div style={{ marginBottom: 5}}>
+            价格:
+            <InputNumber
+              style={{ width: 200, marginLeft: 10 }} min={ 0 } value={ modalData.price }
+              onChange={ this._changeOriginalObjModalProp("price").bind(this) } />
+            ={ modalData.displayPrice }
+          </div>
+          <div>
+            <Button
+              type="primary"
+              onClick={ this._submitOriginalObjModal.bind(this) }>
+              提交
+            </Button>
+            { modalData.mode === "edit" ? (
+              <Button
+                type="primary"
+                style={{ marginLeft: 10 }}
+                onClick={ this._deleteOriginalObjModal.bind(this) }>
+                删除
+              </Button>
+            ) : (<noscript/>)}
+          </div>
+        </Modal>
         <p>装备类型列表</p>
         <Transfer
           listStyle={{
@@ -233,6 +379,11 @@ class BuildPage5 extends Component {
             </div>
           </div>
         ) : ( <noscript/> )}
+        <p>自定义装备/道具<Button type="primary" style={{ marginLeft: 10 }} onClick={ this._openOriginalObjModal(-1).bind(this) }>添加</Button></p>
+        { originalObjList }
+        <div style={{margin:"10px 0"}}>
+          <hr/>
+        </div>
         <p style={{fontSize:"small"}}>1大金币 = 2中金币 = 10小金币 = 100大银币 = 200中银币 = 1000小银币 = 10000铜币</p>
         <p>
           <span>总金额：</span>

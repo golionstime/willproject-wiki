@@ -3,50 +3,50 @@ import Data from './Data';
 /**
  * @author: Golion
  */
-var Build = {
+let Build = {
 
   init(callback) {
     let _this = this;
     // 种族
     Data.loadBuildDataFromServer("race", () => {
-      if ((typeof(Data.data["race"].length) == "undefined") || (Data.data["race"].length == 0)) { callback(false); return; }
+      if ((typeof(Data.data["race"].length) === "undefined") || (Data.data["race"].length === 0)) { callback(false); return; }
       Data.data["race-list"] = [];
       for (let i=0; i<Data.data["race"].length; i++) {
         Data.data["race-list"].push(Data.data["race"][i].name);
       }
       // 职业与技能
       Data.loadBuildDataFromServer("profession", () => {
-        if ((typeof(Data.data["profession"].length) == "undefined") || (Data.data["profession"].length == 0)) { callback(false); return; }
+        if ((typeof(Data.data["profession"].length) === "undefined") || (Data.data["profession"].length === 0)) { callback(false); return; }
         Data.data["profession-list"] = [];
         Data.data["ability-list"] = {};
         for (let i=0; i<Data.data["profession"].length; i++) {
           Data.data["profession-list"].push(Data.data["profession"][i].name);
           let abilities = Data.data["profession"][i].abilities.split(",");
           for(let j=0; j<abilities.length; j++) {
-            if (abilities[j] == "") continue;
+            if (abilities[j] === "") continue;
             let abilityName = abilities[j];
-            if (typeof(Data.data["ability-list"][abilityName]) == "undefined") {
+            if (typeof(Data.data["ability-list"][abilityName]) === "undefined") {
               Data.data["ability-list"][abilityName] = 0;
             }
           }
         }
         // 流派
         Data.loadBuildDataFromServer("style", () => {
-          if ((typeof(Data.data["style"].length) == "undefined") || (Data.data["style"].length == 0)) { callback(false); return; }
+          if ((typeof(Data.data["style"].length) === "undefined") || (Data.data["style"].length === 0)) { callback(false); return; }
           Data.data["style-list"] = [];
           for (let i=0; i<Data.data["style"].length; i++) {
             Data.data["style-list"].push(Data.data["style"][i].name);
           }
           // 装备
           Data.loadBuildDataFromServer("equip", () => {
-            if ((typeof(Data.data["equip"].length) == "undefined") || (Data.data["equip"].length == 0)) { callback(false); return; }
+            if ((typeof(Data.data["equip"].length) === "undefined") || (Data.data["equip"].length === 0)) { callback(false); return; }
             Data.data["equip-class-list"] = [];
             for (let i=0; i<Data.data["equip"].length; i++) {
               Data.data["equip-class-list"].push(Data.data["equip"][i].name);
             }
             // 道具
             Data.loadBuildDataFromServer("item", () => {
-              if ((typeof(Data.data["item"].length) == "undefined") || (Data.data["item"].length == 0)) { callback(false); return; }
+              if ((typeof(Data.data["item"].length) === "undefined") || (Data.data["item"].length === 0)) { callback(false); return; }
               Data.data["item-list"] = [];
               for (let i=0; i<Data.data["item"].length; i++) {
                 Data.data["item-list"].push(Data.data["item"][i].name);
@@ -62,30 +62,30 @@ var Build = {
   },
 
   initBuild() {
-    if (Data.getItem("race-list-select") == '') Data.setItem("race-list-select", Data.data["race"][0].name);
+    if (Data.getItem("race-list-select") === '') Data.setItem("race-list-select", Data.data["race"][0].name);
     let raceSelect;
     for (raceSelect=0; raceSelect<Data.data["race"].length; raceSelect++) {
-      if (Data.data["race"][raceSelect].name == Data.data["race-list-select"]) break;
+      if (Data.data["race"][raceSelect].name === Data.data["race-list-select"]) break;
     }
     Data.data["current-race"] = Data.data["race"][raceSelect];
-    if (Data.getItem("params-xp") == '') Data.setItem("params-xp", 50);
-    if (Data.getItem("params-radio") == '') Data.setItem("params-radio", "a");
-    if (Data.getItem("params-int") == '') Data.setItem("params-int", Data.data["current-race"].minParams[0]);
-    if (Data.getItem("params-str") == '') Data.setItem("params-str", Data.data["current-race"].minParams[1]);
-    if (Data.getItem("params-agi") == '') Data.setItem("params-agi", Data.data["current-race"].minParams[2]);
-    if (Data.getItem("params-vit") == '') Data.setItem("params-vit", Data.data["current-race"].minParams[3]);
-    if (Data.getItem("params-crm") == '') Data.setItem("params-crm", Data.data["current-race"].minParams[4]);
-    if (Data.getItem("params-cal") == '') Data.setItem("params-cal", Data.data["current-race"].minParams[5]);
-    if (Data.getItem("params-pow") == '') Data.setItem("params-pow", Data.data["current-race"].minParams[6]);
-    if (Data.getItem("params-dex") == '') Data.setItem("params-dex", Data.data["current-race"].minParams[7]);
-    if (Data.getItem("params-for") == '') Data.setItem("params-for", Data.data["current-race"].minParams[8]);
-    if (Data.getItem("params-con") == '') Data.setItem("params-con", Data.data["current-race"].minParams[9]);
+    if (Data.getItem("params-xp") === '') Data.setItem("params-xp", 50);
+    if (Data.getItem("params-radio") === '') Data.setItem("params-radio", "a");
+    if (Data.getItem("params-int") === '') Data.setItem("params-int", Data.data["current-race"].minParams[0]);
+    if (Data.getItem("params-str") === '') Data.setItem("params-str", Data.data["current-race"].minParams[1]);
+    if (Data.getItem("params-agi") === '') Data.setItem("params-agi", Data.data["current-race"].minParams[2]);
+    if (Data.getItem("params-vit") === '') Data.setItem("params-vit", Data.data["current-race"].minParams[3]);
+    if (Data.getItem("params-crm") === '') Data.setItem("params-crm", Data.data["current-race"].minParams[4]);
+    if (Data.getItem("params-cal") === '') Data.setItem("params-cal", Data.data["current-race"].minParams[5]);
+    if (Data.getItem("params-pow") === '') Data.setItem("params-pow", Data.data["current-race"].minParams[6]);
+    if (Data.getItem("params-dex") === '') Data.setItem("params-dex", Data.data["current-race"].minParams[7]);
+    if (Data.getItem("params-for") === '') Data.setItem("params-for", Data.data["current-race"].minParams[8]);
+    if (Data.getItem("params-con") === '') Data.setItem("params-con", Data.data["current-race"].minParams[9]);
   },
 
   changeRace(raceName) {
     let raceSelect;
     for (raceSelect=0; raceSelect<Data.data["race"].length; raceSelect++) {
-      if (Data.data["race"][raceSelect].name == raceName) break;
+      if (Data.data["race"][raceSelect].name === raceName) break;
     }
     Data.data["current-race"] = Data.data["race"][raceSelect];
     Data.setItem("params-int", Data.data["current-race"].minParams[0]);
@@ -155,23 +155,17 @@ var Build = {
 
   // 计算能力点
   getAbilityPoints() {
-    let _int = (typeof(Data.getItem("params-int")) == "string") ? parseInt(Data.getItem("params-int")) : Data.getItem("params-int");
+    let _int = (typeof(Data.getItem("params-int")) === "string") ? parseInt(Data.getItem("params-int")) : Data.getItem("params-int");
     let _totalAbilityPoints = Data.data["current-race"].initialAbilityPoints + _int;
-    if (Data.getItem("params-radio") == 'd') _totalAbilityPoints += 6;
+    if (Data.getItem("params-radio") === 'd') _totalAbilityPoints += 6;
     return _totalAbilityPoints;
   },
 
   // 计算技能点
   getSkillPoints() {
-    let _int = (typeof(Data.getItem("params-int")) == "string") ? parseInt(Data.getItem("params-int")) : Data.getItem("params-int");
+    let _int = (typeof(Data.getItem("params-int")) === "string") ? parseInt(Data.getItem("params-int")) : Data.getItem("params-int");
     let _totalSkillPoints = Data.data["current-race"].initialSkillPoints + _int;
     return _totalSkillPoints;
-  },
-
-  // 计算单项能力上升的能力点消耗，仅考虑必须要用能力点来点的部分
-  getAbilityPointCost(abilityLevel, customAbilityLevel) {
-    if (abilityLevel + customAbilityLevel <= 3) return customAbilityLevel;
-    return (6 - abilityLevel);
   },
 
   // 用于推理详细加点过程
@@ -194,26 +188,26 @@ var Build = {
 
   // 获取消耗的能力点
   getSavedAbilityPointsCost() {
-    if (Data.getItem("ability-cost") == "") return 0;
-    return (typeof(Data.getItem("ability-cost")) == "string") ? parseInt(Data.getItem("ability-cost")) : Data.getItem("ability-cost");
+    if (Data.getItem("ability-cost") === "") return 0;
+    return (typeof(Data.getItem("ability-cost")) === "string") ? parseInt(Data.getItem("ability-cost")) : Data.getItem("ability-cost");
   },
 
   // 获取通过点能力消耗的XP点
   getSavedAbilityXPCost() {
-    if (Data.getItem("ability-xp-cost") == "") return 0;
-    return (typeof(Data.getItem("ability-xp-cost")) == "string") ? parseInt(Data.getItem("ability-xp-cost")) : Data.getItem("ability-xp-cost");
+    if (Data.getItem("ability-xp-cost") === "") return 0;
+    return (typeof(Data.getItem("ability-xp-cost")) === "string") ? parseInt(Data.getItem("ability-xp-cost")) : Data.getItem("ability-xp-cost");
   },
 
   // 获取消耗的技能点
   getSavedSkillPointsCost() {
-    if (Data.getItem("skill-cost") == "") return 0;
-    return (typeof(Data.getItem("skill-cost")) == "string") ? parseInt(Data.getItem("skill-cost")) : Data.getItem("skill-cost");
+    if (Data.getItem("skill-cost") === "") return 0;
+    return (typeof(Data.getItem("skill-cost")) === "string") ? parseInt(Data.getItem("skill-cost")) : Data.getItem("skill-cost");
   },
 
   // 获取通过点技能消耗的XP点
   getSavedSkillXPCost() {
-    if (Data.getItem("skill-xp-cost") == "") return 0;
-    return (typeof(Data.getItem("skill-xp-cost")) == "string") ? parseInt(Data.getItem("skill-xp-cost")) : Data.getItem("skill-xp-cost");
+    if (Data.getItem("skill-xp-cost") === "") return 0;
+    return (typeof(Data.getItem("skill-xp-cost")) === "string") ? parseInt(Data.getItem("skill-xp-cost")) : Data.getItem("skill-xp-cost");
   },
 
   // 输入选择职业的id，输出选完职业后的职业/能力列表
@@ -226,7 +220,7 @@ var Build = {
         selectedProfessions.push(_profession.name);
         let _abilityList = _profession.abilities.split(",");
         for (let j = 0; j < _abilityList.length; j++) {
-          if (typeof(selectedAbilities[_abilityList[j]]) == "undefined") {
+          if (typeof(selectedAbilities[_abilityList[j]]) === "undefined") {
             selectedAbilities[_abilityList[j]] = 1;
           }
           else {
@@ -247,9 +241,9 @@ var Build = {
     let customAbilities = Data.getItem("custom-abilities").split(",");
     let customAbilityLevel = 0;
     for (let j=0; j<customAbilities.length; j++) {
-      if (customAbilities[j] == "") continue;
+      if (customAbilities[j] === "") continue;
       let _abilityInfo = customAbilities[j].split("|");
-      if (_abilityInfo[0] == abilityName) {
+      if (_abilityInfo[0] === abilityName) {
         customAbilityLevel = parseInt(_abilityInfo[1]);
         break;
       }
@@ -259,7 +253,7 @@ var Build = {
 
   // 或取总能力级别
   setAbilityLevel(abilityName, value) {
-    if (typeof(Data.data["final-ability-level"]) == "undefined") {
+    if (typeof(Data.data["final-ability-level"]) === "undefined") {
       Data.data["final-ability-level"] = {};
     }
     Data.data["final-ability-level"][abilityName] = value;
@@ -272,7 +266,7 @@ var Build = {
 
   // 或取总能力级别
   getAbilityLevel(abilityName) {
-    if (typeof(Data.data["final-ability-level"][abilityName]) == "undefined") {
+    if (typeof(Data.data["final-ability-level"][abilityName]) === "undefined") {
       return 0;
     }
     return Data.data["final-ability-level"][abilityName];
@@ -284,9 +278,9 @@ var Build = {
     let customAbilitiesNew = [];
     let found = false;
     for (let j=0; j<customAbilities.length; j++) {
-      if (customAbilities[j] == "") continue;
+      if (customAbilities[j] === "") continue;
       let _abilityInfo = customAbilities[j].split("|");
-      if (_abilityInfo[0] == abilityName) {
+      if (_abilityInfo[0] === abilityName) {
         found = true;
         let customAbilityLevel = parseInt(_abilityInfo[1]);
         let customAbilityLevelNew = add ? customAbilityLevel + 1 : customAbilityLevel - 1;
@@ -312,7 +306,7 @@ var Build = {
         selectedStyles.push(_style.name);
         let _skillList = _style.list;
         for (let j = 0; j < _skillList.length; j++) {
-          if (typeof(selectedSkills[_skillList[j].name]) == "undefined") {
+          if (typeof(selectedSkills[_skillList[j].name]) === "undefined") {
             selectedSkills[_skillList[j].name] = _skillList[j];
           }
         }
@@ -331,7 +325,7 @@ var Build = {
     let _added = false;
     let _isValid = true;
     for (let i=0; i<_requirements.length; i++) {
-      if (_requirements[i] == "") continue;
+      if (_requirements[i] === "") continue;
       let _re = _requirements[i].split("|");
       if (_added) _descr += " 及 ";
       switch (_re[0]) {
@@ -387,9 +381,9 @@ var Build = {
     let customSkills = Data.getItem("custom-skills").split(",");
     let customSkillLevel = 0;
     for (let j=0; j<customSkills.length; j++) {
-      if (customSkills[j] == "") continue;
+      if (customSkills[j] === "") continue;
       let _skillInfo = customSkills[j].split("|");
-      if (_skillInfo[0] == skillName) {
+      if (_skillInfo[0] === skillName) {
         customSkillLevel = parseInt(_skillInfo[1]);
         break;
       }
@@ -403,9 +397,9 @@ var Build = {
     let customSkillsNew = [];
     let found = false;
     for (let j=0; j<customSkills.length; j++) {
-      if (customSkills[j] == "") continue;
+      if (customSkills[j] === "") continue;
       let _skillInfo = customSkills[j].split("|");
-      if (_skillInfo[0] == skillName) {
+      if (_skillInfo[0] === skillName) {
         found = true;
         let customSkillLevel = parseInt(_skillInfo[1]);
         let customSkillLevelNew = add ? customSkillLevel + 1 : customSkillLevel - 1;
@@ -431,7 +425,7 @@ var Build = {
         selectedEquipClasses.push(_equipClass.name);
         let _equipList = _equipClass.list;
         for (let j = 0; j < _equipList.length; j++) {
-          if (typeof(selectedEquips[_equipList[j].name]) == "undefined") {
+          if (typeof(selectedEquips[_equipList[j].name]) === "undefined") {
             selectedEquips[_equipList[j].name] = {
               name: _equipList[j].name,
               classid: selectedKeys[i],
@@ -457,78 +451,136 @@ var Build = {
 
   // 或取Equip的名字
   getEquipName(classId, equipId) {
-    if (typeof(Data.getItem("equip")[classId].list[equipId]) == "undefined") return "";
+    if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return "";
     return Data.getItem("equip")[classId].list[equipId].name;
   },
 
   // 或取Equip的效果描述
   getEquipDescription(classId, equipId) {
-    if (typeof(Data.getItem("equip")[classId].list[equipId]) == "undefined") return "";
+    if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return "";
     return Data.getItem("equip")[classId].list[equipId].description;
   },
 
   // 或取Equip的价格描述
   getEquipPrice(classId, equipId) {
-    if (typeof(Data.getItem("equip")[classId].list[equipId]) == "undefined") return "";
+    if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return "";
     return "价格：" + this.getPriceDescription(Data.getItem("equip")[classId].list[equipId].price);
   },
 
   // 或取Equip的价格
   getEquipPriceNumber(classId, equipId) {
-    if (typeof(Data.getItem("equip")[classId].list[equipId]) == "undefined") return 0;
+    if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return 0;
     return Data.getItem("equip")[classId].list[equipId].price;
   },
 
   // 或取Equip的重量描述
   getEquipWeight(classId, equipId) {
-    if (typeof(Data.getItem("equip")[classId].list[equipId]) == "undefined") return "";
+    if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return "";
     return "重量：" + Data.getItem("equip")[classId].list[equipId].weight + "KG";
   },
 
   // 或取Equip的重量描述
   getEquipWeightNumber(classId, equipId) {
-    if (typeof(Data.getItem("equip")[classId].list[equipId]) == "undefined") return 0;
+    if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return 0;
     return Data.getItem("equip")[classId].list[equipId].weight;
   },
 
   // 或取Item的名字
   getItemName(itemId) {
-    if (typeof(Data.getItem('item')[itemId]) == "undefined") return "";
+    if (typeof(Data.getItem('item')[itemId]) === "undefined") return "";
     return Data.getItem('item')[itemId].name;
   },
 
   // 或取Item的价格描述
   getItemPrice(itemId) {
-    if (typeof(Data.getItem('item')[itemId]) == "undefined") return "";
+    if (typeof(Data.getItem('item')[itemId]) === "undefined") return "";
     return "价格：" + this.getPriceDescription(Data.getItem('item')[itemId].price);
   },
 
   // 或取Item的价格
   getItemPriceNumber(itemId) {
-    if (typeof(Data.getItem('item')[itemId]) == "undefined") return 0;
+    if (typeof(Data.getItem('item')[itemId]) === "undefined") return 0;
     return Data.getItem('item')[itemId].price;
   },
 
   // 或取Item的重量描述
   getItemWeight(itemId) {
-    if (typeof(Data.getItem('item')[itemId]) == "undefined") return "";
+    if (typeof(Data.getItem('item')[itemId]) === "undefined") return "";
     return "重量：" + Data.getItem("item")[itemId].weight + "KG";
   },
 
   // 或取Item的重量
   getItemWeightNumber(itemId) {
-    if (typeof(Data.getItem('item')[itemId]) == "undefined") return 0;
+    if (typeof(Data.getItem('item')[itemId]) === "undefined") return 0;
     return Data.getItem("item")[itemId].weight;
   },
 
+  // 获取自定义物品的描述和重量
+  parseOriginalObj(originalObjStr) {
+    let originalObj = originalObjStr.split('|');
+    if (originalObj.length === 4) {
+      return {
+        name: originalObj[0],
+        weight: parseFloat(originalObj[1]),
+        price: parseInt(originalObj[2]),
+        displayPrice: originalObj[3]
+      }
+    } else {
+      return {
+        name: 'Undefined',
+        weight: 0.0,
+        price: 0,
+        displayPrice: this.getPriceDescription(0)
+      }
+    }
+  },
+
+  // 添加自定义物品
+  addOriginalObj(name, weight, price) {
+    let itemStr = (name + "|" + weight + "|" + price + "|" + this.getPriceDescription(price)).trim();
+    if (Data.getItem("original-objs").trim() === "") {
+      Data.setItem("original-objs", itemStr);
+    } else {
+      let originalObjs = Data.getItem("original-objs").split(',');
+      originalObjs.push(itemStr);
+      Data.setItem("original-objs", originalObjs.join(","));
+    }
+  },
+
+  // 编辑自定义物品
+  editOriginalObj(index, name, weight, price) {
+    let originalObjs = Data.getItem("original-objs").split(',');
+    let newList = [];
+    for (let i=0; i<originalObjs.length; i++) {
+      if (i === index) {
+        newList.push(name + "|" + weight + "|" + price + "|" + this.getPriceDescription(price));
+      } else {
+        newList.push(originalObjs[i]);
+      }
+    }
+    Data.setItem("original-objs", newList.join(","));
+  },
+
+  // 删除自定义物品
+  deleteOriginalObj(index) {
+    let originalObjs = Data.getItem("original-objs").split(',');
+    let newList = [];
+    for (let i=0; i<originalObjs.length; i++) {
+      if (i !== index) {
+        newList.push(originalObjs[i]);
+      }
+    }
+    Data.setItem("original-objs", newList.join(","));
+  },
+
   // 增加商品数量
-  getExtraEquipAmount(classId, equipId, amount) {
+  getExtraEquipAmount(classId, equipId) {
     let extraEquips = Data.getItem("extra-equips").split(",");
     let extraEquipsAmount = 0;
     for (let j=0; j<extraEquips.length; j++) {
-      if (extraEquips[j] == "") continue;
+      if (extraEquips[j] === "") continue;
       let _equipInfo = extraEquips[j].split("|");
-      if ((parseInt(_equipInfo[0]) == classId) && (parseInt(_equipInfo[1]) == equipId)) {
+      if ((parseInt(_equipInfo[0]) === classId) && (parseInt(_equipInfo[1]) === equipId)) {
         extraEquipsAmount = parseInt(_equipInfo[2]);
         break;
       }
@@ -542,9 +594,9 @@ var Build = {
     let extraEquipsNew = [];
     let found = false;
     for (let j=0; j<extraEquips.length; j++) {
-      if (extraEquips[j] == "") continue;
+      if (extraEquips[j] === "") continue;
       let _equipInfo = extraEquips[j].split("|");
-      if ((parseInt(_equipInfo[0]) == classId) && (parseInt(_equipInfo[1]) == equipId)) {
+      if ((parseInt(_equipInfo[0]) === classId) && (parseInt(_equipInfo[1]) === equipId)) {
         found = true;
         let extraEquipAmount = parseInt(_equipInfo[2]);
         let extraEquipAmountNew = add ? extraEquipAmount + 1 : extraEquipAmount - 1;
@@ -584,7 +636,7 @@ var Build = {
     if (_money3 > 0) _descr += _money3 + "中银币 ";
     if (_money2 > 0) _descr += _money2 + "小银币 ";
     if (_money1 > 0) _descr += _money1 + "铜币";
-    if (_descr == "") _descr = "免费";
+    if (_descr === "") _descr = "免费";
     return _descr;
   },
 
@@ -595,12 +647,12 @@ var Build = {
     let xp, abilityPoints, abilityCost, abilityXPCost, skillPoints, skillCost, skillXPCost;
     switch (step) {
       case 0:
-        if (Data.getItem("name") == "") {
+        if (Data.getItem("name") === "") {
           _status = false;
           _msg = "请输入姓名";
           break;
         }
-        if (Data.getItem("introduction") == "") {
+        if (Data.getItem("introduction") === "") {
           _status = false;
           _msg = "请输入简介";
           break;
@@ -663,7 +715,7 @@ var Build = {
     }
   },
 
-  toJsonOby() {
+  toJsonObj() {
     let name         = Data.getItem("name");
     let introduction = Data.getItem("introduction");
     let gender       = Data.getItem("gender");
@@ -696,6 +748,7 @@ var Build = {
     let skills       = Data.getItem("final-skills");
     let equips       = Data.getItem("final-equips");
     let items        = Data.getItem("final-items");
+    let originalObjs = Data.getItem("original-objs");
     let priceSum     = Data.getItem("price-sum");
     let weightSum    = Data.getItem("weight-sum");
     // 以上内容构成了卡片的完整信息，以下则是一些中间状态，用于Edit的补充数据
@@ -744,6 +797,7 @@ var Build = {
       skills: encodeURIComponent(skills),
       equips: encodeURIComponent(equips),
       items: encodeURIComponent(items),
+      originalObjs: encodeURIComponent(originalObjs),
       priceSum: priceSum,
       weightSum: weightSum,
       edit: edit

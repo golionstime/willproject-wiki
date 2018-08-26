@@ -9,7 +9,7 @@ class Card extends Component {
     let professions = professionsStr.split(",");
     let professionList = [];
     for (let i=0; i<professions.length; i++) {
-      if (professions[i] == "") continue;
+      if (professions[i] === "") continue;
       professionList.push({
         name: professions[i]
       });
@@ -21,7 +21,7 @@ class Card extends Component {
     let abilities = abilitiesStr.split(",");
     let abilityList = [];
     for (let i=0; i<abilities.length; i++) {
-      if (abilities[i] == "") continue;
+      if (abilities[i] === "") continue;
       let ability = abilities[i].split("|");
       abilityList.push({
         name: ability[0],
@@ -35,7 +35,7 @@ class Card extends Component {
     let skills = skillsStr.split(",");
     let skillList = [];
     for (let i=0; i<skills.length; i++) {
-      if (skills[i] == "") continue;
+      if (skills[i] === "") continue;
       skillList.push({
         name: skills[i]
       });
@@ -47,7 +47,7 @@ class Card extends Component {
     let equips = equipsStr.split(",");
     let equipList = [];
     for (let i=0; i<equips.length; i++) {
-      if (equips[i] == "") continue;
+      if (equips[i] === "") continue;
       let equip = equips[i].split("|");
       equipList.push({
         name: equip[0],
@@ -61,11 +61,27 @@ class Card extends Component {
     let items = itemsStr.split(",");
     let itemList = [];
     for (let i=0; i<items.length; i++) {
-      if (items[i] == "") continue;
+      if (items[i] === "") continue;
       let item = items[i].split("|");
       itemList.push({
         name: item[0],
         amount: item[1]
+      });
+    }
+    return itemList;
+  }
+
+  _parseOriginalObjs(itemsStr) {
+    let items = itemsStr.split(",");
+    let itemList = [];
+    for (let i=0; i<items.length; i++) {
+      if (items[i] === "") continue;
+      let item = items[i].split("|");
+      itemList.push({
+        name: item[0],
+        weight: parseFloat(item[1]),
+        price: parseInt(item[2]),
+        displayPrice: item[3]
       });
     }
     return itemList;
@@ -95,92 +111,105 @@ class Card extends Component {
     if (_money3 > 0) _descr += _money3 + "中银币 ";
     if (_money2 > 0) _descr += _money2 + "小银币 ";
     if (_money1 > 0) _descr += _money1 + "铜币";
-    if (_descr == "") _descr = "免费";
+    if (_descr === "") _descr = "免费";
     return _descr;
   }
 
   render() {
     const { creator, name, introduction, gender, age, height, weight, skin, hair, eye, hand, appear, story, addition } = this.props;
     const { xp, xpCost, radio, pint, pstr, pagi, pvit, pcrm, pcal, ppow, pdex, pfor, pcon } = this.props;
-    const { professions, abilities, skills, equips, items, priceSum, weightSum } = this.props;
+    const { professions, abilities, skills, equips, items, originalObjs, priceSum, weightSum } = this.props;
     return (
       <div style={{margin:"20px 0",textAlign:"left"}}>
         <p>{ introduction + " - " + name }</p>
-        { creator != "" ? ( <p><span style={{fontWeight:"bold"}}>创作者：</span><span>{ creator }</span></p> ) : ( <noscript/> )}
-        { gender != "" || age != "" ? (
+        { creator !== "" ? ( <p><span style={{fontWeight:"bold"}}>创作者：</span><span>{ creator }</span></p> ) : ( <noscript/> )}
+        { gender !== "" || age !== "" ? (
           <p>
-            { gender != "" ? ( <span><span style={{fontWeight:"bold"}}>性别：</span><span>{ gender }</span></span> ) : ( <noscript/> )}
-            { gender != "" && age != "" ? (<span style={{margin:"0 10px"}}> </span>) : ( <noscript/> )}
-            { age != "" ? ( <span><span style={{fontWeight:"bold"}}>年龄：</span><span>{ age }</span></span> ) : ( <noscript/> )}
+            { gender !== "" ? ( <span><span style={{fontWeight:"bold"}}>性别：</span><span>{ gender }</span></span> ) : ( <noscript/> )}
+            { gender !== "" && age !== "" ? (<span style={{margin:"0 10px"}}> </span>) : ( <noscript/> )}
+            { age !== "" ? ( <span><span style={{fontWeight:"bold"}}>年龄：</span><span>{ age }</span></span> ) : ( <noscript/> )}
           </p>
         ) : ( <noscript/> )}
-        { height != "" || weight != "" ? (
+        { height !== "" || weight !== "" ? (
           <p>
-            { height != "" ? ( <span><span style={{fontWeight:"bold"}}>身高：</span><span>{ height }</span></span> ) : ( <noscript/> )}
-            { height != "" && weight != "" ? (<span style={{margin:"0 10px"}}> </span>) : ( <noscript/> )}
-            { weight != "" ? ( <span><span style={{fontWeight:"bold"}}>体重：</span><span>{ weight }</span></span> ) : ( <noscript/> )}
+            { height !== "" ? ( <span><span style={{fontWeight:"bold"}}>身高：</span><span>{ height }</span></span> ) : ( <noscript/> )}
+            { height !== "" && weight !== "" ? (<span style={{margin:"0 10px"}}> </span>) : ( <noscript/> )}
+            { weight !== "" ? ( <span><span style={{fontWeight:"bold"}}>体重：</span><span>{ weight }</span></span> ) : ( <noscript/> )}
           </p>
         ) : ( <noscript/> )}
-        { skin != "" || hair != "" ? (
+        { skin !== "" || hair !== "" ? (
           <p>
-            { skin != "" ? ( <span><span style={{fontWeight:"bold"}}>肤色：</span><span>{ skin }</span></span> ) : ( <noscript/> )}
-            { skin != "" && hair != "" ? (<span style={{margin:"0 10px"}}> </span>) : ( <noscript/> )}
-            { hair != "" ? ( <span><span style={{fontWeight:"bold"}}>发色：</span><span>{ hair }</span></span> ) : ( <noscript/> )}
+            { skin !== "" ? ( <span><span style={{fontWeight:"bold"}}>肤色：</span><span>{ skin }</span></span> ) : ( <noscript/> )}
+            { skin !== "" && hair !== "" ? (<span style={{margin:"0 10px"}}> </span>) : ( <noscript/> )}
+            { hair !== "" ? ( <span><span style={{fontWeight:"bold"}}>发色：</span><span>{ hair }</span></span> ) : ( <noscript/> )}
           </p>
         ) : ( <noscript/> )}
-        { eye != "" || hand != "" ? (
+        { eye !== "" || hand !== "" ? (
           <p>
-            { eye != "" ? ( <span><span style={{fontWeight:"bold"}}>瞳色：</span><span>{ eye }</span></span> ) : ( <noscript/> )}
-            { eye != "" && hand != "" ? (<span style={{margin:"0 10px"}}> </span>) : ( <noscript/> )}
-            { hand != "" ? ( <span><span style={{fontWeight:"bold"}}>惯用手：</span><span>{ hand }</span></span> ) : ( <noscript/> )}
+            { eye !== "" ? ( <span><span style={{fontWeight:"bold"}}>瞳色：</span><span>{ eye }</span></span> ) : ( <noscript/> )}
+            { eye !== "" && hand !== "" ? (<span style={{margin:"0 10px"}}> </span>) : ( <noscript/> )}
+            { hand !== "" ? ( <span><span style={{fontWeight:"bold"}}>惯用手：</span><span>{ hand }</span></span> ) : ( <noscript/> )}
           </p>
         ) : ( <noscript/> )}
-        { appear != "" ? ( <div><p style={{fontWeight:"bold"}}>外观：</p><p>{ appear }</p></div> ) : ( <noscript/> )}
-        { story != "" ? ( <div><p style={{fontWeight:"bold"}}>故事背景：</p><p>{ story }</p></div> ) : ( <noscript/> )}
-        { addition != "" ? ( <div><p style={{fontWeight:"bold"}}>补充设定：</p><p>{ addition }</p></div> ) : ( <noscript/> )}
+        { appear !== "" ? ( <div><p style={{fontWeight:"bold"}}>外观：</p><p>{ appear }</p></div> ) : ( <noscript/> )}
+        { story !== "" ? ( <div><p style={{fontWeight:"bold"}}>故事背景：</p><p>{ story }</p></div> ) : ( <noscript/> )}
+        { addition !== "" ? ( <div><p style={{fontWeight:"bold"}}>补充设定：</p><p>{ addition }</p></div> ) : ( <noscript/> )}
         <div style={{margin:"20px 0"}}>
           <hr/>
         </div>
         <p><span style={{fontWeight:"bold"}}>XP：</span><span>{ xpCost + " / " + xp }</span></p>
-        { radio == "a" ? ( <p style={{fontWeight:"bold"}}>魔法相性：表</p> ) : ( <noscript/> ) }
-        { radio == "b" ? ( <p style={{fontWeight:"bold"}}>魔法相性：里</p> ) : ( <noscript/> ) }
+        { radio === "a" ? ( <p style={{fontWeight:"bold"}}>魔法相性：表</p> ) : ( <noscript/> ) }
+        { radio === "b" ? ( <p style={{fontWeight:"bold"}}>魔法相性：里</p> ) : ( <noscript/> ) }
         <p>{ "智力：" + pint + " 力量：" + pstr + " 灵巧：" + pagi + " 体魄：" + pvit + " 仪态" + pcrm }</p>
         <p>{ "沉着：" + pcal + " 气势：" + ppow + " 敏锐：" + pdex + " 坚毅：" + pfor + " 操控" + pcon }</p>
         <div style={{margin:"20px 0"}}>
           <hr/>
         </div>
-        { professions != "" ? (
+        { professions !== "" ? (
           <div>
             <p style={{fontWeight:"bold"}}>职业：</p>
             <p>{ this._parseProfessions(professions).map((s, i) => <span style={{marginRight:15}}>{ s.name + " " }</span>) }</p>
             <br/>
           </div>
         ) : ( <noscript/> )}
-        { abilities != "" ? (
+        { abilities !== "" ? (
           <div>
             <p style={{fontWeight:"bold"}}>能力：</p>
             <p>{ this._parseAbilities(abilities).map((s, i) => <span><span>{ s.name + " Lv" }</span><span style={{color:"red",marginRight:15}}>{ s.level + " " }</span></span>) }</p>
             <br/>
           </div>
         ) : ( <noscript/> )}
-        { skills != "" ? (
+        { skills !== "" ? (
           <div>
             <p style={{fontWeight:"bold"}}>魔法、技能与优点：</p>
             <p>{ this._parseSkills(skills).map((s, i) => <span style={{marginRight:15}}>{ s.name + " " }</span>) }</p>
             <br/>
           </div>
         ) : ( <noscript/> )}
-        { equips != "" ? (
+        { equips !== "" ? (
           <div>
             <p style={{fontWeight:"bold"}}>装备：</p>
             <p>{ this._parseEquips(equips).map((s, i) => <span><span>{ s.name + " 数量：" }</span><span style={{color:"red",marginRight:15}}>{ s.amount + " " }</span></span>) }</p>
             <br/>
           </div>
         ) : ( <noscript/> )}
-        { items != "" ? (
+        { items !== "" ? (
           <div>
-            <p style={{fontWeight:"bold"}}>物品：</p>
+            <p style={{fontWeight:"bold"}}>道具：</p>
             <p>{ this._parseItems(items).map((s, i) => <span><span>{ s.name + " 数量：" }</span><span style={{color:"red",marginRight:15}}>{ s.amount + " " }</span></span>) }</p>
+            <br/>
+          </div>
+        ) : ( <noscript/> )}
+        { originalObjs !== "" ? (
+          <div>
+            <p style={{fontWeight:"bold"}}>原创物品：</p>
+            { this._parseOriginalObjs(originalObjs).map((s, i) =>
+            <p>
+              <span>{ s.name + " 重量：" }</span>
+              <span style={{color:"red"}}>{ s.weight }</span>
+              <span> 价格：</span>
+              <span style={{color:"red",marginRight:15}}>{ s.displayPrice }</span>
+            </p>) }
             <br/>
           </div>
         ) : ( <noscript/> )}

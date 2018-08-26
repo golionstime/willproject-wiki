@@ -24,11 +24,11 @@ class Nav extends Component {
     return (
       <div className="nav-wrap" style={{zIndex:99}}>
         <img className="nav-img" src={ DATA.HOST + '/static/img/wp-banner.png' } />
-        <div style={{clear:"both"}}></div>
+        <div style={{clear:"both"}}/>
         <a href="/addpage" title="创建Wiki页面">
           <Button style={{margin:"5px 20px",float:wp.base.BROWSER_TYPE?"none":"right"}}>新建Wiki</Button>
         </a>
-        <div className="mobile-clear-both"></div>
+        <div className="mobile-clear-both"/>
         <Menu 
           onClick={ this._handleClick.bind(this) }
           selectedKeys={ [this.state.current] }
@@ -61,7 +61,7 @@ class Nav extends Component {
             <a href={ "/characters" } title="人物">人物</a>
           </Menu.Item>
           <Menu.Item key="rules">
-            <a href={ "/rules" } title="规则书">规则书</a>
+            <a href={ "/page/规则书" } title="规则书">规则书</a>
           </Menu.Item>
           <SubMenu title="工具箱">
             <Menu.Item key="dice">

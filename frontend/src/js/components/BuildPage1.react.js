@@ -25,28 +25,28 @@ class BuildPage1 extends Component {
         <p>
           <span>性别：</span>
           <Input style={{width:inputWidthSmall,margin:10}} value={ Data.getItem("gender") } placeholder="性别" onChange={ this.props.setItem("gender") }/>
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={wp.base.BROWSER_TYPE?{}:{marginLeft:25}}>年龄：</span>
           <Input style={{width:inputWidthSmall,margin:10}} value={ Data.getItem("age") } placeholder="年龄" onChange={ this.props.setItem("age") }/>
         </p>
         <p>
           <span>身高：</span>
           <Input style={{width:inputWidthSmall,margin:10}} value={ Data.getItem("height") } placeholder="身高" onChange={ this.props.setItem("height") }/>
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={wp.base.BROWSER_TYPE?{}:{marginLeft:25}}>体重：</span>
           <Input style={{width:inputWidthSmall,margin:10}} value={ Data.getItem("weight") } placeholder="体重" onChange={ this.props.setItem("weight") }/>
         </p>
         <p>
           <span>肤色：</span>
           <Input style={{width:inputWidthSmall,margin:10}} value={ Data.getItem("skin") } placeholder="肤色" onChange={ this.props.setItem("skin") }/>
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={wp.base.BROWSER_TYPE?{}:{marginLeft:25}}>发色：</span>
           <Input style={{width:inputWidthSmall,margin:10}} value={ Data.getItem("hair") } placeholder="发色" onChange={ this.props.setItem("hair") }/>
         </p>
         <p>
           <span>瞳色：</span>
           <Input style={{width:inputWidthSmall,margin:10}} value={ Data.getItem("eye") } placeholder="瞳色" onChange={ this.props.setItem("eye") }/>
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={wp.base.BROWSER_TYPE?{}:{marginLeft:10}}>惯用手：</span>
           <Input style={{width:inputWidthSmall,margin:10}} value={ Data.getItem("hand") } placeholder="惯用手" onChange={ this.props.setItem("hand") }/>
         </p>

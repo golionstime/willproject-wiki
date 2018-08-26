@@ -43,7 +43,7 @@ class PrinterPage extends Component {
   }
 
   _upload() {
-    if (this.state.creator == "") {
+    if (this.state.creator === "") {
       this.setState({
         msg: "请输入创作者的名字"
       });
@@ -53,7 +53,7 @@ class PrinterPage extends Component {
         msg: "",
         loading: true
       });
-      CardService.add(this.state.creator, this.state.imgPath, this.state.isPublic, Build.toJsonOby(), (status, cardId) => {
+      CardService.add(this.state.creator, this.state.imgPath, this.state.isPublic, Build.toJsonObj(), (status, cardId) => {
         if (status) {
           this.setState({
             msg: "上传成功",
@@ -136,7 +136,7 @@ class PrinterPage extends Component {
             <span style={{marginLeft:5,fontSize:"small"}}>私有</span>
           )}
         </div>
-        { this.state.msg != "" ? (
+        { this.state.msg !== "" ? (
           <p style={{color:"red"}}>{ this.state.msg }</p>
         ) : (
           <noscript/>

@@ -89,13 +89,13 @@ class CharacterPage extends Component {
           confirmLoading={ this.state.confirmLoading }
         >
           <p>公开后，这张卡将会出现在Wiki的<a target="_blank" href="/characters">人物</a>页面</p>
-          { this.state.modalMsg != "" ? ( <p style={{color:"red"}}>{ this.state.modalMsg }</p> ) : ( <noscript/> ) }
+          { this.state.modalMsg !== "" ? ( <p style={{color:"red"}}>{ this.state.modalMsg }</p> ) : ( <noscript/> ) }
         </Modal>
       );
     }
     return (
       <div style={{margin:10}}>
-        { DATA.CARD_ID[0] == 'p' ? (
+        { DATA.CARD_ID[0] === 'p' ? (
           <Button style={{float:wp.base.BROWSER_TYPE?"none":"right",margin:10}} onClick={ this._setModalVisible(true).bind(this) }>公开人物</Button>
         ) : ( <noscript/> ) }
         <a href={ DATA.HOST + '/edit/' + DATA.CARD_ID }>
@@ -104,12 +104,12 @@ class CharacterPage extends Component {
         <a href={ DATA.HOST + '/setimg/' + DATA.CARD_ID }>
           <Button style={{float:wp.base.BROWSER_TYPE?"none":"right",margin:10}}>设置图片</Button>
         </a>
-        <div style={{float:wp.base.BROWSER_TYPE?"none":"right",width:"100%",height:1}}></div>
-        { ((this.state.data.imgpath != "") && (this.state.data.imgpath != "http://www.willproject.cn/static/img/default-character-cover.png")) ? (
+        <div style={{float:wp.base.BROWSER_TYPE?"none":"right",width:"100%",height:1}}/>
+        { ((this.state.data.imgpath !== "") && (this.state.data.imgpath !== "http://www.willproject.cn/static/img/default-character-cover.png")) ? (
           <img style={{float:wp.base.BROWSER_TYPE?"none":"right",margin:10}} width="80px" height="80px" src={ this.state.data.imgpath }/>
         ) : ( <noscript/> )}
-        <div style={{float:wp.base.BROWSER_TYPE?"none":"right",width:"100%",height:1}}></div>
-        { this.state.data.imgpath_large != "" ? (
+        <div style={{float:wp.base.BROWSER_TYPE?"none":"right",width:"100%",height:1}}/>
+        { this.state.data.imgpath_large !== "" ? (
           <div style={{float:wp.base.BROWSER_TYPE?"none":"right"}}>
             <img style={{margin:10}} width={ Math.min(wp.base.DOC_WIDTH - 80, 320) } src={ this.state.data.imgpath_large }/>
           </div>
@@ -149,6 +149,7 @@ class CharacterPage extends Component {
           skills       = { this.state.data.data.skills }
           equips       = { this.state.data.data.equips }
           items        = { this.state.data.data.items }
+          originalObjs = { this.state.data.data.originalObjs }
           priceSum     = { this.state.data.data.priceSum }
           weightSum    = { this.state.data.data.weightSum }
         />
