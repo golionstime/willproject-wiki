@@ -157,7 +157,7 @@ class Card extends Component {
         <div style={{margin:"20px 0"}}>
           <hr/>
         </div>
-        <p><span style={{fontWeight:"bold"}}>XP：</span><span>{ xpCost + " / " + xp }</span></p>
+        <p><span style={{fontWeight:"bold"}}>XP：COST/TOTAL=</span><span>{ xpCost + " / " + xp }</span></p>
         { radio === "a" ? ( <p style={{fontWeight:"bold"}}>魔法相性：表</p> ) : ( <noscript/> ) }
         { radio === "b" ? ( <p style={{fontWeight:"bold"}}>魔法相性：里</p> ) : ( <noscript/> ) }
         <p>{ "智力：" + pint + " 力量：" + pstr + " 灵巧：" + pagi + " 体魄：" + pvit + " 仪态" + pcrm }</p>

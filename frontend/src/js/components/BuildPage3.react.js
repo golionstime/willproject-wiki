@@ -152,6 +152,7 @@ class BuildPage3 extends Component {
       let abilityLevel = 1;
       abilityCostList.push(2);
       let customAbilityLevel = Build.getCustomAbilityLevel(abilityName);
+      Build.setAbilityLevel(abilityName, abilityLevel + customAbilityLevel);
       let _costList = Build.getAbilityPointCostList(abilityLevel, customAbilityLevel, true);
       for (let i=0; i<_costList.length; i++) {
         abilityCostList.push(_costList[i]);
@@ -198,6 +199,7 @@ class BuildPage3 extends Component {
     Data.setItem("final-abilities", finalAbilityList.join(","));
     Data.setItem("ability-cost", abilityCost);
     Data.setItem("ability-xp-cost", abilityXPCost);
+    let skillXPCost = Data.getItem("skill-xp-cost") === "" ? 0 : parseInt(Data.getItem("skill-xp-cost"));
 
     return (
       <div style={{margin:"10px 0"}}>
@@ -236,13 +238,13 @@ class BuildPage3 extends Component {
           <hr/>
         </div>
         <p>
-          <span>能力点：</span>
-          <span style={{color:"red"}}>{ abilityPoints - abilityCost }</span>
+          <span>能力点：COST/TOTAL=</span>
+          <span style={{color:"red"}}>{ abilityCost }</span>
           <span>{ "/" + abilityPoints }</span>
         </p>
         <p>
-          <span>XP：</span>
-          <span style={{color:"red"}}>{ xp - abilityXPCost }</span>
+          <span>XP：COST/TOTAL=</span>
+          <span style={{color:"red"}}>{ abilityXPCost + skillXPCost }</span>
           <span>{ "/" + xp }</span>
         </p>
       </div>

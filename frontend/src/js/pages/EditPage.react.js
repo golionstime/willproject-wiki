@@ -75,6 +75,7 @@ class EditPage extends Component {
         Data.setItem("extra-abilities", data.data.edit.extraAbilities);
         Data.setItem("style-target-keys", data.data.edit.styleTargetKeys);
         Data.setItem("custom-skills", data.data.edit.customSkills);
+        Data.setItem("skill-xp-cost", data.data.edit.skillXPCost);
         Data.setItem("equip-class-target-keys", data.data.edit.equipClassTargetKeys);
         Data.setItem("custom-equips", data.data.edit.customEquips);
         Data.setItem("custom-items", data.data.edit.customItems);

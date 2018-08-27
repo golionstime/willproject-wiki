@@ -759,6 +759,7 @@ let Build = {
       extraAbilities: Data.getItem("extra-abilities"),
       styleTargetKeys: Data.getItem("style-target-keys"),
       customSkills: Data.getItem("custom-skills"),
+      skillXPCost: Data.getItem("skill-xp-cost"),
       equipClassTargetKeys: Data.getItem("equip-class-target-keys"),
       customEquips: Data.getItem("custom-equips"),
       customItems: Data.getItem("custom-items"),

@@ -184,13 +184,13 @@ class BuildPage4 extends Component {
           <hr/>
         </div>
         <p>
-          <span>技能点：</span>
-          <span style={{color:"red"}}>{ skillPoints - skillCost }</span>
+          <span>技能点：COST/TOTAL=</span>
+          <span style={{color:"red"}}>{ skillCost }</span>
           <span>{ "/" + skillPoints }</span>
         </p>
         <p>
-          <span>XP：</span>
-          <span style={{color:"red"}}>{ xp - abilityXPCost - skillXPCost }</span>
+          <span>XP：COST/TOTAL=</span>
+          <span style={{color:"red"}}>{ abilityXPCost + skillXPCost }</span>
           <span>{ "/" + xp }</span>
         </p>
       </div>
