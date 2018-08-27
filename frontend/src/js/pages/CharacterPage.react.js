@@ -50,6 +50,22 @@ class CharacterPage extends Component {
     }
   }
 
+  _mustInt(data) {
+    if (typeof(data) === "undefined") {
+      return 0
+    } else {
+      return parseInt(data)
+    }
+  }
+
+  _mustStr(data) {
+    if (typeof(data) === "undefined") {
+      return ""
+    } else {
+      return data
+    }
+  }
+
   _makePublic() {
     let _this = this;
     CardService.makePublic(DATA.CARD_ID, (status) => {
@@ -134,22 +150,22 @@ class CharacterPage extends Component {
           xp           = { this.state.data.data.xp }
           xpCost       = { this.state.data.data.xpCost }
           radio        = { this.state.data.data.radio }
-          pint         = { this.state.data.data.pint }
-          pstr         = { this.state.data.data.pstr }
-          pagi         = { this.state.data.data.pagi }
-          pvit         = { this.state.data.data.pvit }
-          pcrm         = { this.state.data.data.pcrm }
-          pcal         = { this.state.data.data.pcal }
-          ppow         = { this.state.data.data.ppow }
-          pdex         = { this.state.data.data.pdex }
-          pfor         = { this.state.data.data.pfor }
-          pcon         = { this.state.data.data.pcon }
-          professions  = { this.state.data.data.professions }
-          abilities    = { this.state.data.data.abilities }
-          skills       = { this.state.data.data.skills }
-          equips       = { this.state.data.data.equips }
-          items        = { this.state.data.data.items }
-          originalObjs = { this.state.data.data.originalObjs }
+          pint         = { this._mustInt(this.state.data.data.pint) }
+          pstr         = { this._mustInt(this.state.data.data.pstr) }
+          pagi         = { this._mustInt(this.state.data.data.pagi) }
+          pvit         = { this._mustInt(this.state.data.data.pvit) }
+          pcrm         = { this._mustInt(this.state.data.data.pcrm) }
+          pcal         = { this._mustInt(this.state.data.data.pcal) }
+          ppow         = { this._mustInt(this.state.data.data.ppow) }
+          pdex         = { this._mustInt(this.state.data.data.pdex) }
+          pfor         = { this._mustInt(this.state.data.data.pfor) }
+          pcon         = { this._mustInt(this.state.data.data.pcon) }
+          professions  = { this._mustStr(this.state.data.data.professions) }
+          abilities    = { this._mustStr(this.state.data.data.abilities) }
+          skills       = { this._mustStr(this.state.data.data.skills) }
+          equips       = { this._mustStr(this.state.data.data.equips) }
+          items        = { this._mustStr(this.state.data.data.items) }
+          originalObjs = { this._mustStr(this.state.data.data.originalObjs) }
           priceSum     = { this.state.data.data.priceSum }
           weightSum    = { this.state.data.data.weightSum }
         />

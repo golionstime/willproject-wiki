@@ -71,20 +71,20 @@ class Card extends Component {
     return itemList;
   }
 
-  _parseOriginalObjs(itemsStr) {
-    let items = itemsStr.split(",");
-    let itemList = [];
-    for (let i=0; i<items.length; i++) {
-      if (items[i] === "") continue;
-      let item = items[i].split("|");
-      itemList.push({
-        name: item[0],
-        weight: parseFloat(item[1]),
-        price: parseInt(item[2]),
-        displayPrice: item[3]
+  _parseOriginalObjs(originalObjsStr) {
+    let originalObjs = originalObjsStr.split(",");
+    let originalObjList = [];
+    for (let i=0; i<originalObjs.length; i++) {
+      if (originalObjs[i].trim() === "") continue;
+      let originalObj = originalObjs[i].trim().split("|");
+      originalObjList.push({
+        name: originalObj[0],
+        weight: parseFloat(originalObj[1]),
+        price: parseInt(originalObj[2]),
+        displayPrice: originalObj[3]
       });
     }
-    return itemList;
+    return originalObjList;
   }
 
   // 计算价格
