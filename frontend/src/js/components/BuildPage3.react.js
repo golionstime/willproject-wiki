@@ -36,8 +36,8 @@ class BuildPage3 extends Component {
     for (let i=0; i<Data.getItem('profession-list').length; i++) {
       let hasKey = false;
       for (let j=0; j<storagedTargetKeys.length; j++) {
-        if (storagedTargetKeys[j] == "") continue;
-        if (storagedTargetKeys[j] == i) {
+        if (storagedTargetKeys[j] === "") continue;
+        if (parseInt(storagedTargetKeys[j]) === i) {
           hasKey = true;
           break;
         }
@@ -121,7 +121,7 @@ class BuildPage3 extends Component {
             { minusAble ? (
               <Button style={{width:30}} size="small" onClick={ this._changeCustomAbility(abilityName, false).bind(this) }>-</Button>
             ) : (
-              <div style={{display:"inline-block",width:30,height:22}}></div>
+              <div style={{display:"inline-block",width:30,height:22}}/>
             )}
             <div style={{display:"inline-block",margin:5,width:200,fontSize:"small"}}>
               <span>{ abilityName + " - Lv" }</span>
@@ -130,7 +130,7 @@ class BuildPage3 extends Component {
             { addAble ? (
               <Button style={{width:30}} size="small" onClick={ this._changeCustomAbility(abilityName, true).bind(this) }>+</Button>
             ) : (
-              <div style={{display:"inline-block",width:30,height:22}}></div>
+              <div style={{display:"inline-block",width:30,height:22}}/>
             )}
           </div>
         );
@@ -141,14 +141,14 @@ class BuildPage3 extends Component {
     // 其他能力
     let extraAbilityList = [];
     for (let abilityName in allAbilities) {
-      if (allAbilities[abilityName] == 0) {
+      if (allAbilities[abilityName] === 0) {
         extraAbilityList.push(abilityName);
       }
     }
     let selectedExtraAbilities = Data.getItem("extra-abilities").split(",");
     for (let i=0; i<selectedExtraAbilities.length; i++) {
       let abilityName = selectedExtraAbilities[i];
-      if (abilityName == "") continue;
+      if (abilityName === "") continue;
       let abilityLevel = 1;
       abilityCostList.push(2);
       let customAbilityLevel = Build.getCustomAbilityLevel(abilityName);
@@ -164,7 +164,7 @@ class BuildPage3 extends Component {
           { minusAble ? (
             <Button style={{width:30}} size="small" onClick={ this._changeCustomAbility(abilityName, false).bind(this) }>-</Button>
           ) : (
-            <div style={{display:"inline-block",width:30,height:22}}></div>
+            <div style={{display:"inline-block",width:30,height:22}}/>
           )}
           <div style={{display:"inline-block",margin:5,width:200,fontSize:"small"}}>
             <span>额外能力：</span>
@@ -175,7 +175,7 @@ class BuildPage3 extends Component {
           { addAble ? (
             <Button style={{width:30}} size="small" onClick={ this._changeCustomAbility(abilityName, true).bind(this) }>+</Button>
           ) : (
-            <div style={{display:"inline-block",width:30,height:22}}></div>
+            <div style={{display:"inline-block",width:30,height:22}}/>
           )}
         </div>
       );
@@ -185,7 +185,7 @@ class BuildPage3 extends Component {
     abilityCostList.sort((a, b) => { return a - b;});
     for (let i=0; i<abilityCostList.length; i++) {
       let _cost = abilityCostList[i];
-      if (_cost == 0) continue;
+      if (_cost === 0) continue;
       if (abilityCost + _cost <= abilityPoints) {
         abilityCost += _cost;
       }

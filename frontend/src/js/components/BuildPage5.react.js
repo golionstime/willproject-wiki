@@ -41,7 +41,7 @@ class BuildPage5 extends Component {
       let hasKey = false;
       for (let j=0; j<storagedTargetKeys.length; j++) {
         if (storagedTargetKeys[j] === "") continue;
-        if (storagedTargetKeys[j] === i) {
+        if (parseInt(storagedTargetKeys[j]) === i) {
           hasKey = true;
           break;
         }

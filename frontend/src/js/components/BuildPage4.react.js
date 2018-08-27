@@ -35,8 +35,8 @@ class BuildPage4 extends Component {
     for (let i=0; i<Data.getItem('style-list').length; i++) {
       let hasKey = false;
       for (let j=0; j<storagedTargetKeys.length; j++) {
-        if (storagedTargetKeys[j] == "") continue;
-        if (storagedTargetKeys[j] == i) {
+        if (storagedTargetKeys[j] === "") continue;
+        if (parseInt(storagedTargetKeys[j]) === i) {
           hasKey = true;
           break;
         }
@@ -106,7 +106,7 @@ class BuildPage4 extends Component {
           if (requirements[i].valid) { isValid = true; break; }
         }
         let minusAble = skillLevel > 0;
-        let addAble = isValid && ( skillLevel == 0 );
+        let addAble = isValid && ( skillLevel === 0 );
         if (minusAble) {
           skillCostList.push(selectedSkills[skillName].cost);
           finalSkillList.push(skillName);
@@ -116,7 +116,7 @@ class BuildPage4 extends Component {
             { minusAble ? (
               <Button style={{width:50}} size="small" onClick={ this._changeSkillLevel(skillName, false).bind(this) }>取消</Button>
             ) : (
-              <div style={{display:"inline-block",width:50,height:22}}></div>
+              <div style={{display:"inline-block",width:50,height:22}}/>
             )}
             <Popover overlayStyle={{width:400}} content={ popoverContent } title={ skillName }>
               <a href="javascript:void(0);">
@@ -128,7 +128,7 @@ class BuildPage4 extends Component {
             { addAble ? (
               <Button style={{width:50}} size="small" onClick={ this._changeSkillLevel(skillName, true).bind(this) }>学习</Button>
             ) : (
-              <div style={{display:"inline-block",width:50,height:22}}></div>
+              <div style={{display:"inline-block",width:50,height:22}}/>
             )}
           </div>
         );
@@ -138,7 +138,7 @@ class BuildPage4 extends Component {
     skillCostList.sort((a, b) => { return b - a;});
     for (let i=0; i<skillCostList.length; i++) {
       let _cost = skillCostList[i];
-      if (_cost == 0) continue;
+      if (_cost === 0) continue;
       if (skillCost + _cost <= skillPoints) {
         skillCost += _cost;
       }

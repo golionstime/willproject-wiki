@@ -53,51 +53,51 @@ class BuildPage2 extends Component {
           <p>
             <span >表属性点：</span>
             <span>{ paramPoints1 }</span>
-            <div className="mobile-clear-both"></div>
+            <div className="mobile-clear-both"/>
             <span style={wp.base.BROWSER_TYPE?{}:{marginLeft:20}}>里属性点：</span>
             <span>{ paramPoints2 }</span>
-            <div className="mobile-clear-both"></div>
+            <div className="mobile-clear-both"/>
             <span style={wp.base.BROWSER_TYPE?{}:{marginLeft:20}}>XP属性点：</span>
             <span style={paramPoints3>=0?{}:{color:"red"}}>{ paramPoints3 }</span>
           </p>
         </div>
         <div style={{margin:10}}>
           <span style={{marginRight:5}}>表属性：</span>
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>智力 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[0] } max={ Data.getItem("current-race").maxParams[0] } value={ Data.getItem("params-int") } onChange={ this.props.setItemDirect("params-int") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>力量 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[1] } max={ Data.getItem("current-race").maxParams[1] } value={ Data.getItem("params-str") } onChange={ this.props.setItemDirect("params-str") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>灵巧 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[2] } max={ Data.getItem("current-race").maxParams[2] } value={ Data.getItem("params-agi") } onChange={ this.props.setItemDirect("params-agi") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>体魄 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[3] } max={ Data.getItem("current-race").maxParams[3] } value={ Data.getItem("params-vit") } onChange={ this.props.setItemDirect("params-vit") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>仪态 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[4] } max={ Data.getItem("current-race").maxParams[4] } value={ Data.getItem("params-crm") } onChange={ this.props.setItemDirect("params-crm") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
         </div>
         <div style={{margin:10}}>
           <span style={{marginRight:5}}>里属性：</span>
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>沉着 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[5] } max={ Data.getItem("current-race").maxParams[5] } value={ Data.getItem("params-cal") } onChange={ this.props.setItemDirect("params-cal") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>气势 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[6] } max={ Data.getItem("current-race").maxParams[6] } value={ Data.getItem("params-pow") } onChange={ this.props.setItemDirect("params-pow") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>敏锐 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[7] } max={ Data.getItem("current-race").maxParams[7] } value={ Data.getItem("params-dex") } onChange={ this.props.setItemDirect("params-dex") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>坚毅 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[8] } max={ Data.getItem("current-race").maxParams[8] } value={ Data.getItem("params-for") } onChange={ this.props.setItemDirect("params-for") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
           <span style={{marginLeft:5}}>操控 </span>
           <InputNumber min={ Data.getItem("current-race").minParams[9] } max={ Data.getItem("current-race").maxParams[9] } value={ Data.getItem("params-con") } onChange={ this.props.setItemDirect("params-con") } />
-          <div className="mobile-clear-both"></div>
+          <div className="mobile-clear-both"/>
         </div>
       </div>
     );
