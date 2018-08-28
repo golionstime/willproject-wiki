@@ -20,27 +20,33 @@ class WikiEngine:
             return '<div></div>'
         dataList = dataStr.split('\n')
         ret = ''
-        tableLineCnt = 0
+        currentTableParams = None
         for data in dataList:
+            # 处理换行
             if data == '':
                 ret += '<br/>'
                 continue
-            if data == '|-':
+            # 处理表格
+            if data.startswith('|-'):
                 ret += '<table>'
+                currentTableParams = WikiEngine.parseTableParams(data)
                 continue
-            if data == '-|':
+            if data.endswith('-|'):
                 ret += '</table>'
-                tableLineCnt = 0
+                currentTableParams = WikiEngine.parseTableParams('')
                 continue
             if data[0] == '|':
-                tableLineCnt += 1
-                ret += WikiEngine.parseTable(data, tableLineCnt)
+                currentTableParams['lineCnt'] += 1
+                ret += WikiEngine.parseTable(data, currentTableParams)
                 continue
+            # HTML直出
             if len(data) > 4:
                 if (data[0] == '{') & (data[1] == '{') & (data[-1] == '}') & (data[-2] == '}'):
                     ret += data[2:-2]
                     continue
+            # 处理<nowiki/>
             data = WikiEngine.parseNoWiki(data)
+            # 处理链接
             data = WikiEngine.parseLink(data)
             data = unquote(data)
             ret += '<p>%s</p>' % data
@@ -91,32 +97,62 @@ class WikiEngine:
         return ret
 
     @staticmethod
+    def parseTableParams(line):
+        line = line.strip()
+        params = {
+            'lineCnt': 0,
+            'cols': 2
+        }
+        if len(line) > 2:
+            line = line[2:]
+            if (line[0] == '[') and (line[-1] == ']'):
+                for _str in line[1:-1].split(','):
+                    _kv = _str.split('=')
+                    if len(_kv) == 2:
+                        key = _kv[0]
+                        val = _kv[1]
+                        if key == 'cols':
+                            params['cols'] = int(val)
+        return params
+
+    @staticmethod
     # 匹配表格
-    def parseTable(str, tableLineCnt):
-        strArr = str[1:].split('=')
+    def parseTable(line, params):
+        if params is None:
+            return line
+        strArr = line[1:].split('=')
         tableCell = 'td'
         classDescr = ''
-        extraStyle = ''
-        if tableLineCnt == 1:
+        if params['lineCnt'] == 1:
             tableCell = 'th'
             classDescr = ' class="title"'
-            extraStyle = ' style="font-weight:bold"'
-        if len(strArr) == 1:
-            return '<tr%s><%s colspan="2" class="fullwidth"%s>%s</%s></tr>' % (
-                classDescr,
-                tableCell, extraStyle, WikiEngine.parseLink(strArr[0].strip()), tableCell)
-        elif len(strArr) == 2:
-            return '<tr%s><%s class="catalog"%s>%s</%s><%s class="detail"%s>%s</%s></tr>' % (
-                classDescr,
-                tableCell, extraStyle, WikiEngine.parseLink(strArr[0].strip()), tableCell,
-                tableCell, extraStyle, WikiEngine.parseLink(strArr[1].strip()), tableCell)
+        if params['cols'] == 2:
+            if len(strArr) == 1:
+                return '<tr%s><%s colspan="2" class="fullwidth">%s</%s></tr>' % (
+                    classDescr,
+                    tableCell, WikiEngine.parseLink(strArr[0].strip()), tableCell)
+            elif len(strArr) == 2:
+                return '<tr%s><%s class="catalog">%s</%s><%s class="detail">%s</%s></tr>' % (
+                    classDescr,
+                    tableCell, WikiEngine.parseLink(strArr[0].strip()), tableCell,
+                    tableCell, WikiEngine.parseLink(strArr[1].strip()), tableCell)
+            else:
+                mergeStr = ''
+                for i, slice in enumerate(strArr):
+                    if i == 0:
+                        continue
+                    mergeStr += slice
+                return '<tr%s><%s class="catalog">%s</%s><%s class="detail">%s</%s></tr>' % (
+                    classDescr,
+                    tableCell, WikiEngine.parseLink(strArr[0].strip()), tableCell,
+                    tableCell, WikiEngine.parseLink(mergeStr.strip()), tableCell)
         else:
-            mergeStr = ''
-            for i, slice in enumerate(strArr):
-                if i == 0:
-                    continue
-                mergeStr += slice
-            return '<tr%s><%s class="catalog"%s>%s</%s><%s class="detail"%s>%s</%s></tr>' % (
-                classDescr,
-                tableCell, extraStyle, WikiEngine.parseLink(strArr[0].strip()), tableCell,
-                tableCell, extraStyle, WikiEngine.parseLink(mergeStr.strip()), tableCell)
+            if len(strArr) == 1:
+                return '<tr%s><%s colspan="%d" class="fullwidth">%s</%s></tr>' % (
+                    classDescr,
+                    tableCell, params['cols'], WikiEngine.parseLink(strArr[0].strip()), tableCell)
+            else:
+                cols = []
+                for slice in strArr:
+                    cols.append('<%s style="width:auto">%s</%s>' % (tableCell, slice.strip(), tableCell))
+                return '<tr%s>%s</tr>' % (classDescr, ''.join(cols))
