@@ -4,6 +4,7 @@ import Data from '../services/Data';
 import Card from '../components/Card.react';
 import Build from '../services/Build';
 import CardService from '../services/Card';
+import Wiki from "../services/Wiki";
 
 /**
  * @Author: Golion
@@ -13,12 +14,32 @@ class PrinterPage extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
+      initialized: false,
+      html: {
+        appear: "",
+        story: "",
+        addition: ""
+      },
       loading: false,
       creator: Data.getItem("creator"),
       imgPath: "http://www.willproject.cn/static/img/default-character-cover.png",
       isPublic: true,
       msg: ""
     };
+    Wiki.convertPageDataToHtml(Data.getItem("appear"), (appearHtmlData) => {
+      Wiki.convertPageDataToHtml(Data.getItem("story"), (storyHtmlData) => {
+        Wiki.convertPageDataToHtml(Data.getItem("addition"), (additionHtmlData) => {
+          this.setState({
+            html: {
+              appear: appearHtmlData,
+              story: storyHtmlData,
+              addition: additionHtmlData
+            },
+            initialized: true
+          });
+        });
+      });
+    });
   }
 
   _setCreator(evt) {
@@ -88,9 +109,9 @@ class PrinterPage extends Component {
           hair         = { Data.getItem("hair") }
           eye          = { Data.getItem("eye") }
           hand         = { Data.getItem("hand") }
-          appear       = { Data.getItem("appear") }
-          story        = { Data.getItem("story") }
-          addition     = { Data.getItem("addition") }
+          appear       = { this.state.html.appear }
+          story        = { this.state.html.story }
+          addition     = { this.state.html.addition }
           race         = { Data.getItem("race-list-select") }
           xp           = { Data.getItem("params-xp") }
           xpCost       = { Data.getItem("final-xp-cost") }
@@ -110,19 +131,18 @@ class PrinterPage extends Component {
           skills       = { Data.getItem("final-skills") }
           equips       = { Data.getItem("final-equips") }
           items        = { Data.getItem("final-items") }
+          originalObjs = { Data.getItem("original-objs") }
           priceSum     = { Data.getItem("price-sum") }
           weightSum    = { Data.getItem("weight-sum") }
         />
         <div style={{margin:"10px 0"}}>
           <hr/>
         </div>
-        {/*
         <div style={{margin:"10px 0"}}>
           <span>图片：</span>
-          <Input style={{width:400,marginRight:20}} value={ this.state.imgPath } placeholder="图片地址，推荐大小80x80，暂不支持上传" onChange={ this._setImgPath.bind(this) }/>
+          <Input style={{width:400,marginRight:20}} value={ this.state.imgPath } placeholder="图片地址，推荐大小80x80" onChange={ this._setImgPath.bind(this) }/>
           <img style={{verticalAlign:"bottom"}} width="30px" height="30px" src={ this.state.imgPath }/>
         </div>
-        */}
         <div style={{margin:"10px 0"}}>
           <span>创作者：</span>
           <Input style={{width:120,marginRight:20}} value={ this.state.creator } placeholder="姓名" onChange={ this._setCreator.bind(this) }/>

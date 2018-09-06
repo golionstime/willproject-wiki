@@ -5,6 +5,8 @@ import Card from '../components/Card.react';
 import CardService from '../services/Card';
 import { getTimeString } from '../utils/Time';
 import './../../css/add-page.less';
+import Wiki from "../services/Wiki";
+import Data from "../services/Data";
 
 /**
  * @Author: Golion
@@ -17,6 +19,11 @@ class CharacterPage extends Component {
       msg: "Loading...",
       initialized: false,
       data: {},
+      html: {
+        appear: "",
+        story: "",
+        addition: ""
+      },
       modalVisible: false,
       confirmLoading: false,
       modalMsg: ""
@@ -27,10 +34,21 @@ class CharacterPage extends Component {
   _init() {
     CardService.getCard(DATA.CARD_ID, (status, data) => {
       if (status) {
-        this.setState({
-          msg: "",
-          data: data,
-          initialized: true
+        Wiki.convertPageDataToHtml(data.data.appear, (appearHtmlData) => {
+          Wiki.convertPageDataToHtml(data.data.story, (storyHtmlData) => {
+            Wiki.convertPageDataToHtml(data.data.addition, (additionHtmlData) => {
+              this.setState({
+                msg: "",
+                data: data,
+                html: {
+                  appear: appearHtmlData,
+                  story: storyHtmlData,
+                  addition: additionHtmlData
+                },
+                initialized: true
+              });
+            });
+          });
         });
         browserHistory.replace("/character/" + DATA.CARD_ID + "/" + this.state.data.data.name);
       }
@@ -143,9 +161,9 @@ class CharacterPage extends Component {
           hair         = { this.state.data.data.hair }
           eye          = { this.state.data.data.eye }
           hand         = { this.state.data.data.hand }
-          appear       = { this.state.data.data.appear }
-          story        = { this.state.data.data.story }
-          addition     = { this.state.data.data.addition }
+          appear       = { this.state.html.appear }
+          story        = { this.state.html.story }
+          addition     = { this.state.html.addition }
           race         = { this.state.data.data.race }
           xp           = { this.state.data.data.xp }
           xpCost       = { this.state.data.data.xpCost }

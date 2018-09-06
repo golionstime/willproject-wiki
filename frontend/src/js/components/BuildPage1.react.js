@@ -60,7 +60,7 @@ class BuildPage1 extends Component {
         </p>
         <p>
           <span>补充：</span>
-          <Input type="textarea" style={{width:inputWidthLarge,height:80,margin:10,verticalAlign:"top"}} value={ Data.getItem("addition") } placeholder="补充设定" onChange={ this.props.setItem("addition") }/>
+          <Input type="textarea" style={{width:inputWidthLarge,height:300,margin:10,verticalAlign:"top"}} value={ Data.getItem("addition") } placeholder="补充设定" onChange={ this.props.setItem("addition") }/>
         </p>
       </div>
     );

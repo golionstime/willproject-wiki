@@ -151,9 +151,15 @@ class Card extends Component {
             { hand !== "" ? ( <span><span style={{fontWeight:"bold"}}>惯用手：</span><span>{ hand }</span></span> ) : ( <noscript/> )}
           </p>
         ) : ( <noscript/> )}
-        { appear !== "" ? ( <div><p style={{fontWeight:"bold"}}>外观：</p><p>{ appear }</p></div> ) : ( <noscript/> )}
-        { story !== "" ? ( <div><p style={{fontWeight:"bold"}}>故事背景：</p><p>{ story }</p></div> ) : ( <noscript/> )}
-        { addition !== "" ? ( <div><p style={{fontWeight:"bold"}}>补充设定：</p><p>{ addition }</p></div> ) : ( <noscript/> )}
+        { appear !== "" ? ( <div><p style={{fontWeight:"bold"}}>外观：</p>
+          <div dangerouslySetInnerHTML={{ __html: appear }}/>
+        </div> ) : ( <noscript/> )}
+        { story !== "" ? ( <div><p style={{fontWeight:"bold"}}>故事背景：</p>
+          <div dangerouslySetInnerHTML={{ __html: story }}/>
+        </div> ) : ( <noscript/> )}
+        { addition !== "" ? ( <div><p style={{fontWeight:"bold"}}>补充设定：</p>
+          <div dangerouslySetInnerHTML={{ __html: addition }}/>
+        </div> ) : ( <noscript/> )}
         <div style={{margin:"20px 0"}}>
           <hr/>
         </div>

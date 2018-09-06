@@ -8,6 +8,9 @@ var Card = {
 
   add(creator, imgPath, isPublic, dataJsonOby, callback) {
     let isPublicStr = isPublic ? '1' : '0';
+    dataJsonOby.appear = btoa(encodeURIComponent(dataJsonOby.appear));
+    dataJsonOby.story = btoa(encodeURIComponent(dataJsonOby.story));
+    dataJsonOby.addition = btoa(encodeURIComponent(dataJsonOby.addition));
     jQuery.ajax({
       type     : 'put',
       timeout  : 10000,
@@ -15,7 +18,7 @@ var Card = {
       dataType : 'json',
       data     : '&creator=' + encodeURIComponent(creator) + '&imgpath=' + encodeURIComponent(imgPath) + '&ispublic=' + isPublicStr + '&data=' + JSON.stringify(dataJsonOby) ,
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
           callback(true, data.id);
         }
         else {
@@ -29,6 +32,9 @@ var Card = {
   },
 
   update(cardId, dataJsonOby, callback) {
+    dataJsonOby.appear = btoa(encodeURIComponent(dataJsonOby.appear));
+    dataJsonOby.story = btoa(encodeURIComponent(dataJsonOby.story));
+    dataJsonOby.addition = btoa(encodeURIComponent(dataJsonOby.addition));
     jQuery.ajax({
       type     : 'post',
       timeout  : 10000,
@@ -36,7 +42,7 @@ var Card = {
       dataType : 'json',
       data     : '&cardid=' + cardId + '&data=' + JSON.stringify(dataJsonOby) ,
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
           callback(true);
         }
         else {
@@ -57,7 +63,7 @@ var Card = {
       dataType : 'json',
       data     : '&cardid=' + cardId + '&imgpath=' + encodeURIComponent(imgPath),
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
           callback(true);
         }
         else {
@@ -78,7 +84,7 @@ var Card = {
       dataType : 'json',
       data     : '&cardid=' + cardId + '&imgpath=' + encodeURIComponent(imgPath),
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
           callback(true);
         }
         else {
@@ -98,7 +104,10 @@ var Card = {
       url      : API_SERVER + '/card/' + id + '/' + Math.random().toString(),
       dataType : 'json',
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
+          data.data.data.appear = decodeURIComponent(atob(data.data.data.appear));
+          data.data.data.story = decodeURIComponent(atob(data.data.data.story));
+          data.data.data.addition = decodeURIComponent(atob(data.data.data.addition));
           callback(true, data.data);
         }
         else {
@@ -118,7 +127,7 @@ var Card = {
       url      : API_SERVER + '/cards/' + page + '/' + pageSize + '/' + Math.random().toString(),
       dataType : 'json',
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
           callback(true, data.total, data.data);
         }
         else {
@@ -139,7 +148,7 @@ var Card = {
       dataType : 'json',
       data     : '&cardid=' + cardId,
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
           callback(true);
         }
         else {
