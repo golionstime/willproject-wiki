@@ -83,16 +83,44 @@ class BuildPage4 extends Component {
     let selectedSkills = skillInfo.skills;
 
     if (selectedStyles.length > 0) {
+      let highestMagicLevel = 0;
       for (let skillName in selectedSkills) {
         let skillLevel = Build.getSkillLevel(skillName);
-        let requirements = selectedSkills[skillName].requirement.map((s, i) => Build.getSkillRequirementDescription(s));
+        let isMagic = selectedSkills[skillName].type === "magic";
+        if (isMagic && skillLevel > 0) {
+          let magicLevelStr = selectedSkills[skillName].magic_level;
+          highestMagicLevel = Math.max(highestMagicLevel, parseInt(magicLevelStr.charAt(magicLevelStr.length - 1)));
+        }
+      }
+      for (let skillName in selectedSkills) {
+        let skillLevel = Build.getSkillLevel(skillName);
+        let isMagic = selectedSkills[skillName].type === "magic";
+        let highestLevel = isMagic ? highestMagicLevel : 0;
+        let requirements = selectedSkills[skillName].requirement.map(
+          (s, i) => Build.getSkillRequirementDescription(s, highestLevel));
         let popoverContent = (
           <div>
-            <p style={{fontWeight:"bold"}}>技能描述</p>
+            { isMagic ? (
+              <div>
+                <p style={{fontWeight:"bold"}}>魔法等级</p>
+                <p>{ selectedSkills[skillName].magic_level }</p>
+                <br/>
+                <p style={{fontWeight:"bold"}}>魔法类型</p>
+                <p>{ selectedSkills[skillName].magic_type }</p>
+                <br/>
+                <p style={{fontWeight:"bold"}}>魔法消耗</p>
+                <p>{ selectedSkills[skillName].magic_cost }</p>
+                <br/>
+                <p style={{fontWeight:"bold"}}>魔法射程</p>
+                <p>{ selectedSkills[skillName].magic_range }</p>
+                <br/>
+              </div>
+            ) : ( <noscript/> )}
+            <p style={{fontWeight:"bold"}}>效果</p>
             <p>{ selectedSkills[skillName].description }</p>
             <br/>
             <p style={{fontWeight:"bold"}}>
-              <span>技能学习消耗：</span>
+              <span>学习消耗：</span>
               <span style={{color:"red"}}>{ selectedSkills[skillName].cost }</span>
               <span>技能点</span>
             </p>

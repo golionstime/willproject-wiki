@@ -331,7 +331,56 @@ class BuildPage5 extends Component {
                 label: (
                   <Popover
                     overlayStyle={{width:250}}
-                    content={ ( <div><p>{ Build.getEquipDescription(s.classid, s.equipid) }</p><p>{ Build.getEquipPrice(s.classid, s.equipid) }</p><p>{ Build.getEquipWeight(s.classid, s.equipid) }</p></div> ) }
+                    content={ (
+                      <div>
+                        { Build.checkEquipProp(s.classid, s.equipid, "description") ? (
+                          <p>描述：{ Build.getEquipProp(s.classid, s.equipid, "description") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "weapon_type") ? (
+                          <p>武器类型：{ Build.getEquipProp(s.classid, s.equipid, "weapon_type") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "weapon_damage") ? (
+                          <p>武器伤害：{ Build.getEquipProp(s.classid, s.equipid, "weapon_damage") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "weapon_range") ? (
+                          <p>武器射程：{ Build.getEquipProp(s.classid, s.equipid, "weapon_range") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "weapon_block") ? (
+                          <p>武器格挡：{ Build.getEquipProp(s.classid, s.equipid, "weapon_block") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "weapon_critical") ? (
+                          <p>武器暴击：{ Build.getEquipProp(s.classid, s.equipid, "weapon_critical") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "weapon_requirement") ? (
+                          <p>武器需求：{ Build.getEquipProp(s.classid, s.equipid, "weapon_requirement") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "weapon_special") ? (
+                          <p>武器特殊：{ Build.getEquipProp(s.classid, s.equipid, "weapon_special") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_effect") ? (
+                          <p>防具效果：{ Build.getEquipProp(s.classid, s.equipid, "armor_effect") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_block_active") ? (
+                          <p>主动格挡：{ Build.getEquipProp(s.classid, s.equipid, "armor_block_active") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_block_passive") ? (
+                          <p>被动格挡：{ Build.getEquipProp(s.classid, s.equipid, "armor_block_passive") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_dexterity") ? (
+                          <p>防具灵活：{ Build.getEquipProp(s.classid, s.equipid, "armor_dexterity") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_requirement") ? (
+                          <p>防具需求：{ Build.getEquipProp(s.classid, s.equipid, "armor_requirement") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_special") ? (
+                          <p>防具特殊：{ Build.getEquipProp(s.classid, s.equipid, "armor_special") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "strength") ? (
+                          <p>强度：{ Build.getEquipProp(s.classid, s.equipid, "strength") }</p>
+                        ) : ( <noscript/> ) }
+                        <p>{ Build.getEquipPrice(s.classid, s.equipid) }</p>
+                        <p>{ Build.getEquipWeight(s.classid, s.equipid) }</p>
+                      </div> ) }
                     title={ s.name }
                   >
                     <span>{ s.name }</span>

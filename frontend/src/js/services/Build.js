@@ -318,8 +318,8 @@ let Build = {
     }
   },
 
-  // 或取技能需求描述
-  getSkillRequirementDescription(requirementStr) {
+  // 获取技能需求描述
+  getSkillRequirementDescription(requirementStr, highestLevel=0) {
     let _requirements = requirementStr.split(",");
     let _descr = "";
     let _added = false;
@@ -338,10 +338,13 @@ let Build = {
         case 'S':
           _descr += "技能-";
           break;
+        case 'M':
+          _descr += "魔法-";
+          break;
       }
       _descr += _re[1] + ":" + _re[2];
       _added = true;
-      if (!this.checkSkillRequirement(_re[0], _re[1], parseInt(_re[2]))) _isValid = false;
+      if (!this.checkSkillRequirement(_re[0], _re[1], parseInt(_re[2]), highestLevel)) _isValid = false;
     }
     return {
       valid: _isValid,
@@ -350,7 +353,7 @@ let Build = {
   },
 
   // 检查是否满足技能需求
-  checkSkillRequirement(type, name, value) {
+  checkSkillRequirement(type, name, value, highestLevel = 0) {
     switch (type) {
       case 'P':
         switch (name) {
@@ -372,6 +375,15 @@ let Build = {
       case 'S':
         if (this.getSkillLevel(name) >= value) return true;
         break;
+      case 'M':
+        switch (name) {
+          case 'Lv1魔法数量': return highestLevel >= 1;
+          case 'Lv2魔法数量': return highestLevel >= 2;
+          case 'Lv3魔法数量': return highestLevel >= 3;
+          case 'Lv4魔法数量': return highestLevel >= 4;
+          case 'Lv5魔法数量': return highestLevel >= 5;
+          default: return true;
+        }
     }
     return false;
   },
@@ -449,67 +461,73 @@ let Build = {
     }
   },
 
-  // 或取Equip的名字
+  // 获取Equip的名字
   getEquipName(classId, equipId) {
     if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return "";
     return Data.getItem("equip")[classId].list[equipId].name;
   },
 
-  // 或取Equip的效果描述
-  getEquipDescription(classId, equipId) {
+  // 获取Equip的某个属性
+  getEquipProp(classId, equipId, propName) {
     if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return "";
-    return Data.getItem("equip")[classId].list[equipId].description;
+    if (!(propName in Data.getItem("equip")[classId].list[equipId])) return "";
+    return Data.getItem("equip")[classId].list[equipId][propName];
   },
 
-  // 或取Equip的价格描述
+  // 校验Equip是否有某个属性
+  checkEquipProp(classId, equipId, propName) {
+    return this.getEquipProp(classId, equipId, propName) !== "";
+  },
+
+  // 获取Equip的价格描述
   getEquipPrice(classId, equipId) {
     if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return "";
     return "价格：" + this.getPriceDescription(Data.getItem("equip")[classId].list[equipId].price);
   },
 
-  // 或取Equip的价格
+  // 获取Equip的价格
   getEquipPriceNumber(classId, equipId) {
     if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return 0;
     return Data.getItem("equip")[classId].list[equipId].price;
   },
 
-  // 或取Equip的重量描述
+  // 获取Equip的重量描述
   getEquipWeight(classId, equipId) {
     if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return "";
     return "重量：" + Data.getItem("equip")[classId].list[equipId].weight + "KG";
   },
 
-  // 或取Equip的重量描述
+  // 获取Equip的重量描述
   getEquipWeightNumber(classId, equipId) {
     if (typeof(Data.getItem("equip")[classId].list[equipId]) === "undefined") return 0;
     return Data.getItem("equip")[classId].list[equipId].weight;
   },
 
-  // 或取Item的名字
+  // 获取Item的名字
   getItemName(itemId) {
     if (typeof(Data.getItem('item')[itemId]) === "undefined") return "";
     return Data.getItem('item')[itemId].name;
   },
 
-  // 或取Item的价格描述
+  // 获取Item的价格描述
   getItemPrice(itemId) {
     if (typeof(Data.getItem('item')[itemId]) === "undefined") return "";
     return "价格：" + this.getPriceDescription(Data.getItem('item')[itemId].price);
   },
 
-  // 或取Item的价格
+  // 获取Item的价格
   getItemPriceNumber(itemId) {
     if (typeof(Data.getItem('item')[itemId]) === "undefined") return 0;
     return Data.getItem('item')[itemId].price;
   },
 
-  // 或取Item的重量描述
+  // 获取Item的重量描述
   getItemWeight(itemId) {
     if (typeof(Data.getItem('item')[itemId]) === "undefined") return "";
     return "重量：" + Data.getItem("item")[itemId].weight + "KG";
   },
 
-  // 或取Item的重量
+  // 获取Item的重量
   getItemWeightNumber(itemId) {
     if (typeof(Data.getItem('item')[itemId]) === "undefined") return 0;
     return Data.getItem("item")[itemId].weight;
