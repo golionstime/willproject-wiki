@@ -251,7 +251,7 @@ let Build = {
     return customAbilityLevel;
   },
 
-  // 或取总能力级别
+  // 设置总能力级别
   setAbilityLevel(abilityName, value) {
     if (typeof(Data.data["final-ability-level"]) === "undefined") {
       Data.data["final-ability-level"] = {};
@@ -264,8 +264,14 @@ let Build = {
     Data.data["final-ability-level"] = {};
   },
 
-  // 或取总能力级别
+  // 获取总能力级别
   getAbilityLevel(abilityName) {
+    if (abilityName === Data.getItem("arbitrary-combat-skill-1") && "任意战斗能力" in Data.data["final-ability-level"]) {
+      return Data.data["final-ability-level"]["任意战斗能力"];
+    }
+    if (abilityName === Data.getItem("arbitrary-knowledge-skill-1") && "任意知识能力" in Data.data["final-ability-level"]) {
+      return Data.data["final-ability-level"]["任意知识能力"];
+    }
     if (typeof(Data.data["final-ability-level"][abilityName]) === "undefined") {
       return 0;
     }
@@ -774,6 +780,9 @@ let Build = {
     let originalObjs = Data.getItem("original-objs");
     let priceSum     = Data.getItem("price-sum");
     let weightSum    = Data.getItem("weight-sum");
+    // 用于匹配【任意XX能力】
+    let arbCbtSkl1 = Data.getItem("arbitrary-combat-skill-1");
+    let arbKlgSkl1 = Data.getItem("arbitrary-knowledge-skill-1");
     // 以上内容构成了卡片的完整信息，以下则是一些中间状态，用于Edit的补充数据
     let edit = {
       professionTargetKeys: Data.getItem("profession-target-keys"),
@@ -788,6 +797,7 @@ let Build = {
       customItems: Data.getItem("custom-items"),
       extraEquips: Data.getItem("extra-equips")
     };
+    // 最终结果
     return {
       name: encodeURIComponent(name),
       introduction: encodeURIComponent(introduction),
@@ -818,6 +828,8 @@ let Build = {
       pcon: pcon,
       professions: encodeURIComponent(professions),
       abilities: encodeURIComponent(abilities),
+      arbCbtSkl1: encodeURIComponent(arbCbtSkl1),
+      arbKlgSkl1: encodeURIComponent(arbKlgSkl1),
       skills: encodeURIComponent(skills),
       equips: encodeURIComponent(equips),
       items: encodeURIComponent(items),

@@ -23,6 +23,12 @@ class Card extends Component {
     for (let i=0; i<abilities.length; i++) {
       if (abilities[i] === "") continue;
       let ability = abilities[i].split("|");
+      if (ability[0] === "任意战斗能力" && this.props.arbCbtSkl1 !== "") {
+        ability[0] = this.props.arbCbtSkl1;
+      }
+      if (ability[0] === "任意知识能力" && this.props.arbKlgSkl1 !== "") {
+        ability[0] = this.props.arbKlgSkl1;
+      }
       abilityList.push({
         name: ability[0],
         level: ability[1]

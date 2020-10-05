@@ -76,6 +76,21 @@ class Nav extends Component {
             <Menu.Item key="uploadimg">
               <a href={ "/uploadimg" } target="_blank" title="传图"><Icon type="picture"/>传图</a>
             </Menu.Item>
+            <Menu.Item key="editbuild-style">
+              <a href={ "/editbuild/style" } target="_blank" title="编辑技能">编辑技能</a>
+            </Menu.Item>
+            <Menu.Item key="editbuild-equip">
+              <a href={ "/editbuild/equip" } target="_blank" title="编辑装备">编辑装备</a>
+            </Menu.Item>
+            <Menu.Item key="editbuild-item">
+              <a href={ "/editbuild/item" } target="_blank" title="编辑道具">编辑道具</a>
+            </Menu.Item>
+            <Menu.Item key="editbuild-profession">
+              <a href={ "/editbuild/profession" } target="_blank" title="编辑职业">编辑职业</a>
+            </Menu.Item>
+            <Menu.Item key="editbuild-race">
+              <a href={ "/editbuild/race" } target="_blank" title="编辑种族">编辑种族</a>
+            </Menu.Item>
           </SubMenu>
         </Menu>
       </div>

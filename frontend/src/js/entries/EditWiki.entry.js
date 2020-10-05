@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 
 import 'file?name=templates/[name].[ext]!./../../html/editpage.html';
 
-import EditPagePage from './../pages/EditPagePage.react';
+import EditWikiPage from '../pages/EditWikiPage.react';
 
 ReactDOM.render(
   <div>
-    <EditPagePage />
+    <EditWikiPage />
   </div>,
   document.getElementById('content')
 );

@@ -4,6 +4,7 @@
 # @Date: 2016.7
 
 
+import os
 import sys
 import json
 import time
@@ -46,6 +47,33 @@ class BuildClient:
         except:
              jsonData = []
         return jsonData
+
+    @staticmethod
+    def setConf(confName, confJsonStr):
+        if (confJsonStr is None) or (confJsonStr == ''):
+            return {
+                "status": "failed"
+            }
+        try:
+            json.dumps(json.loads(confJsonStr))
+        except:
+            return {
+                "status": "failed"
+            }
+        try:
+            filePath = ABS_PATH + '/wpbuild/' + confName + '.conf'
+            if os.path.exists(filePath):
+                os.remove(filePath)
+            fout = open(filePath, 'wb')
+            fout.write(confJsonStr)
+            fout.close()
+        except:
+            return {
+                "status": "failed"
+            }
+        return {
+            "status": "succeed"
+        }
 
     @staticmethod
     def addCard(creator, imgPath, cardJsonStr, isPrivate = False):

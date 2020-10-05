@@ -144,7 +144,7 @@ class BuildPage extends Component {
         ) : (
           <noscript/>
         )}
-        { this.state.step == 4 ? (
+        { this.state.step === 4 ? (
           <Button style={{margin:10}} onClick={ this._build.bind(this) }>OK，建卡！</Button>
         ) : (
           <noscript/>

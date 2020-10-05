@@ -34,6 +34,7 @@ class Controller:
             'page'       : self.__page,
             'addpage'    : self.__addpage,
             'editpage'   : self.__editpage,
+            'editbuild'  : self.__editbuild,
             'rules'      : self.__rules,
             'map'        : self.__map,
             'dice'       : self.__dice,
@@ -146,6 +147,14 @@ class Controller:
             return self._render.editpage({
                 'HOST' : WEB_CONF['host'],
                 'PAGE' : quote(toUtf8Str(attrs[1]))
+            })
+        return self.__404(attrs)
+
+    def __editbuild(self, attrs):
+        if (len(attrs) > 1):
+            return self._render.editbuild({
+                'HOST' : WEB_CONF['host'],
+                'CONFNAME' : quote(toUtf8Str(attrs[1]))
             })
         return self.__404(attrs)
 
@@ -322,6 +331,10 @@ class Controller:
             if attrs[1] == 'page':
                 data = web.input(pagename=None, creator=None, imgpath=None, pagedata=None)
                 return json.dumps(PageClient.updatePage(data.pagename, data.creator, data.imgpath, data.pagedata))
+
+            if (attrs[1] == 'buildconf') & (len(attrs) > 2):
+                data = web.input(confjsonstr=None)
+                return json.dumps(BuildClient.setConf(attrs[2], data.confjsonstr))
 
         # PUT
         if (len(attrs) > 1) & (attrs[0] == 'put'):

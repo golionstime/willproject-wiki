@@ -69,7 +69,7 @@ var Data = {
       url      : API_SERVER + '/buildconf/' + confName + '/' + Math.random().toString(),
       dataType : 'json',
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
           callback(true, data.data);
         }
         else {
@@ -82,6 +82,27 @@ var Data = {
     });
   },
 
+  setBuildConfToServer(confName, confJsonStr, callback) {
+    jQuery.ajax({
+      type     : 'post',
+      timeout  : 10000,
+      url      : API_SERVER + '/buildconf/' + confName + '/' + Math.random().toString(),
+      dataType : 'json',
+      data     : '&confjsonstr=' + confJsonStr,
+      success  : function(data) {
+        if (data.status === 'succeed') {
+          callback(true);
+        }
+        else {
+          callback(false);
+        }
+      },
+      error    : function() {
+        callback(false);
+      }
+    });
+  },
+
   getRuleConfFromServer(confName, callback) {
     jQuery.ajax({
       type     : 'get',
@@ -89,7 +110,7 @@ var Data = {
       url      : API_SERVER + '/ruleconf/' + confName + '/' + Math.random().toString(),
       dataType : 'json',
       success  : function(data) {
-        if (data.status == 'succeed') {
+        if (data.status === 'succeed') {
           callback(true, data.data);
         }
         else {

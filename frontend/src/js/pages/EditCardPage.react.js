@@ -13,7 +13,7 @@ import CardService from '../services/Card';
 /**
  * @Author: Golion
  */
-class EditPage extends Component {
+class EditCardPage extends Component {
 
   constructor(props, context) {
     super(props, context);
@@ -69,6 +69,8 @@ class EditPage extends Component {
         Data.setItem("original-objs", data.data.originalObjs);
         Data.setItem("price-sum", data.data.priceSum);
         Data.setItem("weight-sum", data.data.weightSum);
+        Data.setItem("arbitrary-combat-skill-1", data.data.arbCbtSkl1);
+        Data.setItem("arbitrary-knowledge-skill-1", data.data.arbKlgSkl1);
         Data.setItem("profession-target-keys", data.data.edit.professionTargetKeys);
         Data.setItem("custom-professions", data.data.edit.customProfessions);
         Data.setItem("custom-abilities", data.data.edit.customAbilities);
@@ -270,4 +272,4 @@ class EditPage extends Component {
 
 }
 
-export default EditPage;
+export default EditCardPage;

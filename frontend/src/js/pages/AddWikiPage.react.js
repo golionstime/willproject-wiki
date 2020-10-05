@@ -8,7 +8,7 @@ import './../../css/add-page.less';
 /**
  * @Author: Golion
  */
-class EditPagePage extends Component {
+class AddWikiPage extends Component {
 
   constructor(props, context) {
     super(props, context);
@@ -20,28 +20,15 @@ class EditPagePage extends Component {
       confirmLoading: false,
       refresh: false,
       modalVisible: false,
-      modalInnerHtmlData: "",
-      initialized: false
+      modalInnerHtmlData: ""
     };
-    if (typeof(DATA.PAGE) == "undefined") {
-      window.location.href = "/404";
+    if ((DATA.PAGE == "NEW") && (DATA.NAME == "NONE")) {
+      Data.prefix = "addbrandnewpage";
     }
-    Data.storage = false;
-    Data.prefix = "editpage-" + DATA.PAGE;
-    Data.setItem("page-name", decodeURIComponent(DATA.PAGE));
-    this._init.bind(this)();
-  }
-
-  _init() {
-    let _this = this;
-    Wiki.getPage(Data.getItem("page-name"), (status, data) => {
-      Data.setItem("page-creator", data.creator);
-      Data.setItem("page-img-path", data.imgPath);
-      Data.setItem("page-content", data.pageData);
-      _this.setState({
-        initialized: true
-      });
-    });
+    else if (DATA.NAME == "NONE") {
+      Data.prefix = "addpage-" + DATA.PAGE;
+      Data.setItem("page-name",  decodeURIComponent(DATA.PAGE));
+    }
   }
 
   _clearData() {
@@ -127,12 +114,12 @@ class EditPagePage extends Component {
       modalMsg: "预览"
     });
     let _this = this;
-    Wiki.updatePage(Data.getItem("page-name"), Data.getItem("page-creator"), Data.getItem("page-img-path"), Data.getItem("page-content"), (status) => {
-      if (status == "locked") {
+    Wiki.addPage(Data.getItem("page-name"), Data.getItem("page-creator"), Data.getItem("page-img-path"), Data.getItem("page-content"), (status) => {
+      if (status == "redundant") {
         _this.setState({
           confirmLoading: false,
           msg: "",
-          errorMsg: "本页面已锁定，不允许编辑，请联系管理员",
+          errorMsg: "创建失败，该页面已存在，请访问 http://www.willproject.cn/page/" + Data.getItem("page-name"),
           modalMsg: "",
           modalVisible: false
         });
@@ -162,8 +149,6 @@ class EditPagePage extends Component {
 
   render() {
 
-    if (!this.state.initialized) return <p>Loading...</p>;
-
     let inputWidth = wp.base.BROWSER_TYPE ? wp.base.DOC_WIDTH - 60 : 300;
 
     let modal = <noscript/>;
@@ -180,7 +165,7 @@ class EditPagePage extends Component {
           cancelText="继续编辑"
           confirmLoading={ this.state.confirmLoading }
         >
-          <div
+          <div 
             style={{width:"100%",maxHeight:wp.base.WINDOW_HEIGHT-200,overflowY:"auto"}}
             dangerouslySetInnerHTML={{__html: this.state.modalInnerHtmlData }}>
           </div>
@@ -188,41 +173,88 @@ class EditPagePage extends Component {
       );
     }
 
-    return (
+    let banner = (
       <div>
-        <div>
-          <a href={ "/page/" + Data.getItem("page-name") } title="回到页面"><Icon type="left" style={{float:wp.base.BROWSER_TYPE?"none":"left",margin:10}}/></a>
-          <a href="/page/编辑指南" target="_blank" title="编辑指南"><Icon type="question-circle-o" style={{float:wp.base.BROWSER_TYPE?"none":"right",margin:10}}/></a>
-          <a href="/uploadimg" target="_blank" title="上传图片"><Icon type="upload" style={{float:wp.base.BROWSER_TYPE?"none":"right",margin:10}}/></a>
-          <div style={{clear:"both"}}></div>
-        </div>
+        <a href="/page/编辑指南" target="_blank" title="编辑指南"><Icon type="question-circle-o" style={{float:wp.base.BROWSER_TYPE?"none":"right",margin:10}}/></a>
+        <a href="/uploadimg" target="_blank" title="上传图片"><Icon type="upload" style={{float:wp.base.BROWSER_TYPE?"none":"right",margin:10}}/></a>
+        <div style={{clear:"both"}}></div>
+      </div>
+    );
+
+    let pageInfo = (
+      <div>
+        <AddPage setItem={ this._setItem.bind(this) }/>
         <p>
+          <span>页面配图地址：</span>
+          <Input style={{width:inputWidth,margin:10}} value={ Data.getItem("page-img-path") } placeholder="页面配图地址" onChange={ this._setItem("page-img-path") }/>
+        </p>
+        <p>
+          <span>作者（必填）：</span>
+          <Input style={{width:inputWidth,margin:10}} value={ Data.getItem("page-creator") } placeholder="作者（必填）" onChange={ this._setItem("page-creator") }/>
+        </p>
+        { this.state.errorMsg != "" ? ( <p style={{color:"red"}}>{ this.state.errorMsg }</p> ):( <noscript/> )}
+        { this.state.msg != "" ? ( <p>{ this.state.msg }</p> ):( <noscript/> )}
+        <Button type="primary" loading={ this.state.loading } style={{margin:10}} onClick={ this._previewPage.bind(this) }>预览页面</Button>
+        { modal }
+      </div>
+    );
+
+    // 全新的AddPage
+    if ((DATA.PAGE == "NEW") && (DATA.NAME == "NONE")) {
+      return (
+        <div>
+          { banner }
+          <p>
+            <span>页面名称（必填）：</span>
+            <Input style={{width:inputWidth,margin:10}} value={ Data.getItem("page-name") } placeholder="页面名称（必填）" onChange={ this._setItem("page-name") }/>
+          </p>
+          { pageInfo }
+        </div>
+      );
+    }
+    // addpage，PAGENAME已指定
+    else if (DATA.NAME == "NONE") {
+      return (
+        <div>
+          { banner }
+          <p>
             <span>
-              编辑页面：
+              新增页面：
             </span>
             <span style={{color:"red"}}>
               { Data.getItem("page-name") }
             </span>
-        </p>
-        <div>
-          <AddPage setItem={ this._setItem.bind(this) }/>
-          <p>
-            <span>页面配图地址：</span>
-            <Input style={{width:inputWidth,margin:10}} value={ Data.getItem("page-img-path") } placeholder="页面配图地址" onChange={ this._setItem("page-img-path") }/>
           </p>
-          <p>
-            <span>作者（必填）：</span>
-            <Input style={{width:inputWidth,margin:10}} value={ Data.getItem("page-creator") } placeholder="作者（必填）" onChange={ this._setItem("page-creator") }/>
-          </p>
-          { this.state.errorMsg != "" ? ( <p style={{color:"red"}}>{ this.state.errorMsg }</p> ):( <noscript/> )}
-          { this.state.msg != "" ? ( <p>{ this.state.msg }</p> ):( <noscript/> )}
-          <Button type="primary" loading={ this.state.loading } style={{margin:10}} onClick={ this._previewPage.bind(this) }>预览页面</Button>
-          { modal }
+          { pageInfo }
         </div>
-      </div>
-    );
+      );
+    }
+    // 页面不存在，询问是否需要新建页面，是则跳转至对应的addpage
+    else if (DATA.PAGE == "NONE") {
+      return (
+        <div>
+          <p>
+            <span>页面不存在，</span>
+            <span>
+              <a href={ "/addpage/" + decodeURIComponent(DATA.NAME) }>
+                点此
+              </a>
+            </span>
+            <span>创建</span>
+          </p>
+        </div>
+      );
+    }
+    // 只要服务器不出问题，不会进入这里
+    else {
+      return (
+        <div>
+          ERROR
+        </div>
+      );
+    }
   }
 
 }
 
-export default EditPagePage;
+export default AddWikiPage;

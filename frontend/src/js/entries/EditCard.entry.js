@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 
 import 'file?name=templates/[name].[ext]!./../../html/edit.html';
 
-import EditPage from './../pages/EditPage.react';
+import EditCardPage from '../pages/EditCardPage.react';
 
 ReactDOM.render(
   <div>
-    <EditPage />
+    <EditCardPage />
   </div>,
   document.getElementById('content')
 );

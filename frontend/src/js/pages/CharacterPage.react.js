@@ -186,6 +186,8 @@ class CharacterPage extends Component {
           originalObjs = { this._mustStr(this.state.data.data.originalObjs) }
           priceSum     = { this.state.data.data.priceSum }
           weightSum    = { this.state.data.data.weightSum }
+          arbCbtSkl1   = { this._mustStr(this.state.data.data.arbCbtSkl1) }
+          arbKlgSkl1   = { this._mustStr(this.state.data.data.arbKlgSkl1) }
         />
         <div style={{fontSize:"small",margin:"10px 0"}}>
           <hr/>

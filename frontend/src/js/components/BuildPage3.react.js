@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import jQuery from 'jquery';
-import { Transfer, Button, Checkbox } from 'antd';
+import {Transfer, Button, Checkbox, Input} from 'antd';
 const CheckboxGroup = Checkbox.Group;
 import Data from '../services/Data';
 import Build from '../services/Build';
@@ -76,8 +76,20 @@ class BuildPage3 extends Component {
     this.setState({refresh: true});
   }
 
+  _setItem(itemName) {
+    return (evt) => {
+      Data.setItem(itemName, evt.target.value);
+      let _data = this.state.data;
+      _data[itemName] = evt.target.value;
+      this.setState({
+        data: _data
+      });
+    }
+  }
+
   render() {
 
+    let inputWidthNormal = wp.base.BROWSER_TYPE ? ( wp.base.DOC_WIDTH - 60 ) : Math.min(300, wp.base.DOC_WIDTH - 60);
     let abilityList = []; // 能力列表
     let finalAbilityList = [];
     let abilityPoints = Build.getAbilityPoints(); // 总能力点
@@ -141,7 +153,7 @@ class BuildPage3 extends Component {
     // 其他能力
     let extraAbilityList = [];
     for (let abilityName in allAbilities) {
-      if (allAbilities[abilityName] === 0) {
+      if (allAbilities.hasOwnProperty(abilityName) && allAbilities[abilityName] === 0) {
         extraAbilityList.push(abilityName);
       }
     }
@@ -234,6 +246,15 @@ class BuildPage3 extends Component {
         ) : (
           <noscript/>
         )}
+        <hr/>
+        <p>
+          <span>任意战斗能力=</span>
+          <Input style={{width:inputWidthNormal,margin:10}} value={ Data.getItem("arbitrary-combat-skill-1") } placeholder="任意战斗能力" onChange={ this._setItem("arbitrary-combat-skill-1").bind(this) }/>
+        </p>
+        <p>
+          <span>任意知识能力=</span>
+          <Input style={{width:inputWidthNormal,margin:10}} value={ Data.getItem("arbitrary-knowledge-skill-1") } placeholder="任意战斗能力" onChange={ this._setItem("arbitrary-knowledge-skill-1").bind(this) }/>
+        </p>
         <div style={{margin:"10px 0"}}>
           <hr/>
         </div>

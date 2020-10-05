@@ -20,8 +20,14 @@ module.exports = {
     // 新增Wiki页面
     'addpage' : [path.resolve(__dirname, './src/js/entries/AddPage.entry.js')],
 
+    // 建卡器（编辑模式）
+    'editcard' : [path.resolve(__dirname, './src/js/entries/EditCard.entry.js')],
+
     // 编辑Wiki页面
-    'editpage' : [path.resolve(__dirname, './src/js/entries/EditPage.entry.js')],
+    'editwiki' : [path.resolve(__dirname, './src/js/entries/EditWiki.entry.js')],
+
+    // 编辑建卡器页面
+    'editbuild' : [path.resolve(__dirname, './src/js/entries/EditBuild.entry.js')],
 
     // 地图
     'map' : [path.resolve(__dirname, './src/js/entries/Map.entry.js')],
@@ -37,9 +43,6 @@ module.exports = {
 
     // 印卡
     'printer' : [path.resolve(__dirname, './src/js/entries/Printer.entry.js')],
-
-    // 建卡器（编辑模式）
-    'edit' : [path.resolve(__dirname, './src/js/entries/Edit.entry.js')],
 
     // 设置人物头像
     'setimg' : [path.resolve(__dirname, './src/js/entries/SetImg.entry.js')],
