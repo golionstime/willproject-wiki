@@ -84,44 +84,97 @@ class BuildPage4 extends Component {
 
     if (selectedStyles.length > 0) {
       let highestMagicLevel = 0;
+      let totalSkillNum1 = 0;  // 肮脏战斗
+      let totalSkillNum2 = 0;  // 短兵械斗
+      let totalSkillNum3 = 0;  // 长兵械斗
+      let totalSkillNum4 = 0;  // 大型械斗
       for (let skillName in selectedSkills) {
         let skillLevel = Build.getSkillLevel(skillName);
-        let isMagic = selectedSkills[skillName].type === "magic";
-        if (isMagic && skillLevel > 0) {
-          let magicLevelStr = selectedSkills[skillName].magic_level;
+        if (skillLevel <= 0) continue;
+        let skill = selectedSkills[skillName]
+        let isCombat = skill.type === "combat";
+        let isMagic = skill.type === "magic";
+        if (isMagic && 'magic_level' in skill) {
+          let magicLevelStr = skill.magic_level;
           highestMagicLevel = Math.max(highestMagicLevel, parseInt(magicLevelStr.charAt(magicLevelStr.length - 1)));
+        }
+        if (isCombat && 'type_detail' in skill) {
+          switch (skill.type_detail) {
+            case "肮脏战斗战技": totalSkillNum1 += 1; break;
+            case "短兵械斗战技": totalSkillNum2 += 1; break;
+            case "长兵械斗战技": totalSkillNum3 += 1; break;
+            case "大型械斗战技": totalSkillNum4 += 1; break;
+            case "近战通用战技":
+              totalSkillNum1 += 1;
+              totalSkillNum2 += 1;
+              totalSkillNum3 += 1;
+              totalSkillNum4 += 1;
+              break;
+          }
         }
       }
       for (let skillName in selectedSkills) {
         let skillLevel = Build.getSkillLevel(skillName);
-        let isMagic = selectedSkills[skillName].type === "magic";
-        let highestLevel = isMagic ? highestMagicLevel : 0;
-        let requirements = selectedSkills[skillName].requirement.map(
-          (s, i) => Build.getSkillRequirementDescription(s, highestLevel));
+        let skill = selectedSkills[skillName];
+        let isCombat = skill.type === "combat";
+        let isMagic = skill.type === "magic";
+        let counter = 0;
+        if (isMagic) {
+          counter = highestMagicLevel;
+        } else if (isCombat && 'type_detail' in skill) {
+          switch (skill.type_detail) {
+            case "肮脏战斗战技": counter = totalSkillNum1; break;
+            case "短兵械斗战技": counter = totalSkillNum2; break;
+            case "长兵械斗战技": counter = totalSkillNum3; break;
+            case "大型械斗战技": counter = totalSkillNum4; break;
+          }
+        }
+        let requirements = skill.requirement.map(
+          (s, i) => Build.getSkillRequirementDescription(s, counter));
         let popoverContent = (
           <div>
-            { isMagic ? (
+            { isCombat ? (
               <div>
-                <p style={{fontWeight:"bold"}}>魔法等级</p>
-                <p>{ selectedSkills[skillName].magic_level }</p>
-                <br/>
-                <p style={{fontWeight:"bold"}}>魔法类型</p>
-                <p>{ selectedSkills[skillName].magic_type }</p>
-                <br/>
-                <p style={{fontWeight:"bold"}}>魔法消耗</p>
-                <p>{ selectedSkills[skillName].magic_cost }</p>
-                <br/>
-                <p style={{fontWeight:"bold"}}>魔法射程</p>
-                <p>{ selectedSkills[skillName].magic_range }</p>
-                <br/>
+                { 'combat_type' in skill ? (
+                  <div><p style={{fontWeight:"bold"}}>战技类型</p><p>{ skill.combat_type }</p><br/></div>
+                ) : ( <noscript/> ) }
+                { 'combat_bonus' in skill ? (
+                  <div><p style={{fontWeight:"bold"}}>战技增幅</p><p>{ skill.combat_bonus }</p><br/></div>
+                ) : ( <noscript/> ) }
+                { 'combat_cost' in skill ? (
+                  <div><p style={{fontWeight:"bold"}}>战技消耗</p><p>{ skill.combat_cost }</p><br/></div>
+                ) : ( <noscript/> ) }
+                { 'combat_range' in skill ? (
+                  <div><p style={{fontWeight:"bold"}}>战技射程</p><p>{ skill.combat_range }</p><br/></div>
+                ) : ( <noscript/> ) }
               </div>
             ) : ( <noscript/> )}
-            <p style={{fontWeight:"bold"}}>效果</p>
-            <p>{ selectedSkills[skillName].description }</p>
-            <br/>
+            { isMagic ? (
+              <div>
+                { 'magic_level' in skill ? (
+                  <div><p style={{fontWeight:"bold"}}>魔法等级</p><p>{ skill.magic_level }</p><br/></div>
+                ) : ( <noscript/> ) }
+                { 'magic_type' in skill ? (
+                  <div><p style={{fontWeight:"bold"}}>魔法类型</p><p>{ skill.magic_type }</p><br/></div>
+                ) : ( <noscript/> ) }
+                { 'magic_cost' in skill ? (
+                  <div><p style={{fontWeight:"bold"}}>魔法消耗</p><p>{ skill.magic_cost }</p><br/></div>
+                ) : ( <noscript/> ) }
+                { 'magic_range' in skill ? (
+                  <div><p style={{fontWeight:"bold"}}>魔法射程</p><p>{ skill.magic_range }</p><br/></div>
+                ) : ( <noscript/> ) }
+              </div>
+            ) : ( <noscript/> )}
+            { 'bonus' in skill ? (
+              <div><p style={{fontWeight:"bold"}}>增幅</p><p>{ skill.bonus }</p><br/></div>
+            ) : ( <noscript/> ) }
+            { 'special' in skill ? (
+              <div><p style={{fontWeight:"bold"}}>特殊</p><p>{ skill.special }</p><br/></div>
+            ) : ( <noscript/> ) }
+            <p style={{fontWeight:"bold"}}>效果</p><p>{ skill.description }</p><br/>
             <p style={{fontWeight:"bold"}}>
               <span>学习消耗：</span>
-              <span style={{color:"red"}}>{ selectedSkills[skillName].cost }</span>
+              <span style={{color:"red"}}>{ skill.cost }</span>
               <span>技能点</span>
             </p>
             <br/>

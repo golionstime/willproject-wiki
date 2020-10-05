@@ -319,7 +319,7 @@ let Build = {
   },
 
   // 获取技能需求描述
-  getSkillRequirementDescription(requirementStr, highestLevel=0) {
+  getSkillRequirementDescription(requirementStr, counter=0) {
     let _requirements = requirementStr.split(",");
     let _descr = "";
     let _added = false;
@@ -341,10 +341,13 @@ let Build = {
         case 'M':
           _descr += "魔法-";
           break;
+        case 'C':
+          _descr += "战技-";
+          break;
       }
       _descr += _re[1] + ":" + _re[2];
       _added = true;
-      if (!this.checkSkillRequirement(_re[0], _re[1], parseInt(_re[2]), highestLevel)) _isValid = false;
+      if (!this.checkSkillRequirement(_re[0], _re[1], parseInt(_re[2]), counter)) _isValid = false;
     }
     return {
       valid: _isValid,
@@ -353,7 +356,7 @@ let Build = {
   },
 
   // 检查是否满足技能需求
-  checkSkillRequirement(type, name, value, highestLevel = 0) {
+  checkSkillRequirement(type, name, value, counter = 0) {
     switch (type) {
       case 'P':
         switch (name) {
@@ -375,13 +378,15 @@ let Build = {
       case 'S':
         if (this.getSkillLevel(name) >= value) return true;
         break;
+      case 'C':
+        return counter >= value;
       case 'M':
         switch (name) {
-          case 'Lv1魔法数量': return highestLevel >= 1;
-          case 'Lv2魔法数量': return highestLevel >= 2;
-          case 'Lv3魔法数量': return highestLevel >= 3;
-          case 'Lv4魔法数量': return highestLevel >= 4;
-          case 'Lv5魔法数量': return highestLevel >= 5;
+          case 'Lv1魔法数量': return counter >= 1;
+          case 'Lv2魔法数量': return counter >= 2;
+          case 'Lv3魔法数量': return counter >= 3;
+          case 'Lv4魔法数量': return counter >= 4;
+          case 'Lv5魔法数量': return counter >= 5;
           default: return true;
         }
     }
