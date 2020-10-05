@@ -22,7 +22,7 @@ class EditBuildPage extends Component {
     Data.getBuildConfFromServer(DATA.CONFNAME, (status, data) => {
       _this.setState({
         initialized: status,
-        data: JSON.stringify(data)
+        data: JSON.stringify(data, null, 2)
       });
     });
   }
