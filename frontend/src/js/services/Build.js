@@ -173,6 +173,9 @@ let Build = {
     let costPointList = [];
     let currentLevel = abilityLevel;
     for (let i=0; i<customAbilityLevel; i++) {
+      if (currentLevel >= 4) {
+        break;
+      }
       if (currentLevel >= 3) costPointList.push(double?6:3);
       else costPointList.push(double?2:1);
       currentLevel++;

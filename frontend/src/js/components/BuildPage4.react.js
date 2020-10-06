@@ -128,8 +128,11 @@ class BuildPage4 extends Component {
             case "大型械斗战技": counter = totalSkillNum4; break;
           }
         }
-        let requirements = skill.requirement.map(
-          (s, i) => Build.getSkillRequirementDescription(s, counter));
+        let requirements = [];
+        if (skill.hasOwnProperty("requirement")) {
+          requirements = skill.requirement.map(
+            (s, i) => Build.getSkillRequirementDescription(s, counter));
+        }
         let popoverContent = (
           <div>
             { isCombat ? (
@@ -181,7 +184,7 @@ class BuildPage4 extends Component {
             { requirements.map((s, i) => <p style={s.valid?{color:"red"}:{}}>{ s.description }</p>) }
           </div>
         );
-        let isValid = false;
+        let isValid = requirements.length === 0;
         for (let i=0; i<requirements.length; i++) {
           if (requirements[i].valid) { isValid = true; break; }
         }
