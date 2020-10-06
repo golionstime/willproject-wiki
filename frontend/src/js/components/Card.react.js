@@ -136,8 +136,10 @@ class Card extends Component {
     let floW = Math.abs(parseInt(pagi) - parseInt(pdex));
     let powE = Math.abs(parseInt(pvit) + parseInt(pfor));
     let floE = Math.abs(parseInt(pvit) - parseInt(pfor));
-    let powL = parseInt(pcal)
-    let powD = parseInt(pcon)
+    let powL = parseInt(pcal);
+    let floL = 0;
+    let powD = parseInt(pcon);
+    let floD = 0;
     let HP = 0;
     let MP = 0;
     HP = 30 + parseInt(pvit) * 3;
@@ -148,6 +150,26 @@ class Card extends Component {
     this._parseSkills(skills).map((s, i) => {
       if (combatSkills.hasOwnProperty(s.name)) HP += 1;
       if (magicSkills.hasOwnProperty(s.name)) MP += 1;
+      if (s.name === "光之力") powL += 2;
+      if (s.name === "暗之力") powD += 2;
+      if (s.name.startsWith("自然元素")) {
+        if (s.name.indexOf("（水）") !== -1) powA += 1;
+        if (s.name.indexOf("（火）") !== -1) powF += 1;
+        if (s.name.indexOf("（气）") !== -1) powW += 1;
+        if (s.name.indexOf("（地）") !== -1) powE += 1;
+      }
+      if (s.name.startsWith("混沌元素")) {
+        if (s.name.indexOf("（光）") !== -1) powL += 1;
+        if (s.name.indexOf("（暗）") !== -1) powD += 1;
+      }
+      if (s.name.startsWith("元素流出")) {
+        if (s.name.indexOf("（水）") !== -1) floA += 1;
+        if (s.name.indexOf("（火）") !== -1) floF += 1;
+        if (s.name.indexOf("（气）") !== -1) floW += 1;
+        if (s.name.indexOf("（地）") !== -1) floE += 1;
+        if (s.name.indexOf("（光）") !== -1) floL += 1;
+        if (s.name.indexOf("（暗）") !== -1) floD += 1;
+      }
     });
     return (
       <div style={{margin:"20px 0",textAlign:"left"}}>
@@ -198,8 +220,8 @@ class Card extends Component {
         { radio === "b" ? ( <p style={{fontWeight:"bold"}}>魔法相性：里</p> ) : ( <noscript/> ) }
         <p>{ "智力:" + pint + "  力量:" + pstr + "  灵巧:" + pagi + "  体魄:" + pvit + "  仪态:" + pcrm }</p>
         <p>{ "沉着:" + pcal + "  气势:" + ppow + "  敏锐:" + pdex + "  坚毅:" + pfor + "  操控:" + pcon }</p>
-        <p>{ "水元素:" + powA + "  火元素:" + powF + "  地元素:" + powE + "  气元素:" + powW + "  光元素:" + powL }</p>
-        <p>{ "水流出:" + floA + "  火流出:" + floF + "  地流出:" + floE + "  气流出:" + floW + "  暗元素:" + powD }</p>
+        <p>{ "水元素:" + powA + "  火元素:" + powF + "  地元素:" + powE + "  气元素:" + powW + "  光元素:" + powL + "  暗元素:" + powD }</p>
+        <p>{ "水流出:" + floA + "  火流出:" + floF + "  地流出:" + floE + "  气流出:" + floW + "  光流出:" + floL + "  暗流出:" + floD }</p>
         <div style={{margin:"20px 0"}}>
           <hr/>
         </div>
