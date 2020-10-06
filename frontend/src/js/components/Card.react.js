@@ -126,6 +126,18 @@ class Card extends Component {
     const { xp, xpCost, radio, pint, pstr, pagi, pvit, pcrm, pcal, ppow, pdex, pfor, pcon } = this.props;
     const { professions, abilities, skills, equips, items, originalObjs, priceSum, weightSum } = this.props;
     const { combatSkills, magicSkills } = this.props;
+    // pow:元素里 flo:元素流出
+    // A:Aqua F:Fire W:Wind E:Earth L:Light D:Dark
+    let powA = Math.abs(parseInt(pint) + parseInt(pcal));
+    let floA = Math.abs(parseInt(pint) - parseInt(pcal));
+    let powF = Math.abs(parseInt(pstr) + parseInt(ppow));
+    let floF = Math.abs(parseInt(pstr) - parseInt(ppow));
+    let powW = Math.abs(parseInt(pagi) + parseInt(pdex));
+    let floW = Math.abs(parseInt(pagi) - parseInt(pdex));
+    let powE = Math.abs(parseInt(pvit) + parseInt(pfor));
+    let floE = Math.abs(parseInt(pvit) - parseInt(pfor));
+    let powL = parseInt(pcal)
+    let powD = parseInt(pcon)
     let HP = 0;
     let MP = 0;
     HP = 30 + parseInt(pvit) * 3;
@@ -184,8 +196,10 @@ class Card extends Component {
         <p><span style={{fontWeight:"bold"}}>XP：COST/TOTAL=</span><span>{ xpCost + " / " + xp }</span></p>
         { radio === "a" ? ( <p style={{fontWeight:"bold"}}>魔法相性：表</p> ) : ( <noscript/> ) }
         { radio === "b" ? ( <p style={{fontWeight:"bold"}}>魔法相性：里</p> ) : ( <noscript/> ) }
-        <p>{ "智力：" + pint + " 力量：" + pstr + " 灵巧：" + pagi + " 体魄：" + pvit + " 仪态" + pcrm }</p>
-        <p>{ "沉着：" + pcal + " 气势：" + ppow + " 敏锐：" + pdex + " 坚毅：" + pfor + " 操控" + pcon }</p>
+        <p>{ "智力:" + pint + "  力量:" + pstr + "  灵巧:" + pagi + "  体魄:" + pvit + "  仪态:" + pcrm }</p>
+        <p>{ "沉着:" + pcal + "  气势:" + ppow + "  敏锐:" + pdex + "  坚毅:" + pfor + "  操控:" + pcon }</p>
+        <p>{ "水元素:" + powA + "  火元素:" + powF + "  地元素:" + powE + "  气元素:" + powW + "  光元素:" + powL }</p>
+        <p>{ "水流出:" + floA + "  火流出:" + floF + "  地流出:" + floE + "  气流出:" + floW + "  暗元素:" + powD }</p>
         <div style={{margin:"20px 0"}}>
           <hr/>
         </div>
@@ -247,7 +261,7 @@ class Card extends Component {
           <span style={{color:"red"}}>{ this._getPriceDescription(priceSum) }</span>
           <span> </span>
           <span style={{marginLeft:20}}>总负重：</span>
-          <span style={{color:"red"}}>{ weightSum }</span>
+          <span style={{color:"red"}}>{ weightSum.toFixed(2) }</span>
           <span>KG</span>
         </p>
         <br/>
