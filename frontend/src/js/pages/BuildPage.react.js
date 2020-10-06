@@ -153,7 +153,7 @@ class BuildPage extends Component {
     );
     let errorMsg = (
       <div>
-        { this.state.errorMsg != "" ? (
+        { this.state.errorMsg !== "" ? (
           <p style={{color:"red",margin:15}}>{ this.state.errorMsg }</p>
         ) : (
           <noscript/>

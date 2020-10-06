@@ -88,6 +88,7 @@ class BuildPage4 extends Component {
       let totalSkillNum2 = 0;  // 短兵械斗
       let totalSkillNum3 = 0;  // 长兵械斗
       let totalSkillNum4 = 0;  // 大型械斗
+      let totalSkillNum5 = 0;  // 双持
       for (let skillName in selectedSkills) {
         let skillLevel = Build.getSkillLevel(skillName);
         if (skillLevel <= 0) continue;
@@ -109,6 +110,7 @@ class BuildPage4 extends Component {
               totalSkillNum3 += 1;
               totalSkillNum4 += 1;
               break;
+            case "双持战技": totalSkillNum5 += 1; break;
           }
         }
       }
@@ -126,6 +128,7 @@ class BuildPage4 extends Component {
             case "短兵械斗战技": counter = totalSkillNum2; break;
             case "长兵械斗战技": counter = totalSkillNum3; break;
             case "大型械斗战技": counter = totalSkillNum4; break;
+            case "双持战技": counter = totalSkillNum5; break;
           }
         }
         let requirements = [];

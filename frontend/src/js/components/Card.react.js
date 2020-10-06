@@ -145,7 +145,7 @@ class Card extends Component {
     HP = 30 + parseInt(pvit) * 3;
     MP = 15 + parseInt(pint) * 2 + parseInt(pcon) * 2;
     this._parseAbilities(abilities).map((s, i) => {
-      if (s.name === "魔法知识能力") MP += 2;
+      if (s.name === "元素魔法知识") MP += 2 * parseInt(s.level);
     });
     this._parseSkills(skills).map((s, i) => {
       if (combatSkills.hasOwnProperty(s.name)) HP += 1;
@@ -283,7 +283,7 @@ class Card extends Component {
           <span style={{color:"red"}}>{ this._getPriceDescription(priceSum) }</span>
           <span> </span>
           <span style={{marginLeft:20}}>总负重：</span>
-          <span style={{color:"red"}}>{ weightSum.toFixed(2) }</span>
+          <span style={{color:"red"}}>{ weightSum }</span>
           <span>KG</span>
         </p>
         <br/>
