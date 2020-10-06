@@ -105,7 +105,6 @@ class BuildPage4 extends Component {
             case "长兵械斗战技": totalSkillNum3 += 1; break;
             case "大型械斗战技": totalSkillNum4 += 1; break;
             case "近战通用战技":
-              totalSkillNum1 += 1;
               totalSkillNum2 += 1;
               totalSkillNum3 += 1;
               totalSkillNum4 += 1;

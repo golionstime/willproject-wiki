@@ -125,6 +125,18 @@ class Card extends Component {
     const { creator, name, introduction, gender, age, height, weight, skin, hair, eye, hand, appear, story, addition } = this.props;
     const { xp, xpCost, radio, pint, pstr, pagi, pvit, pcrm, pcal, ppow, pdex, pfor, pcon } = this.props;
     const { professions, abilities, skills, equips, items, originalObjs, priceSum, weightSum } = this.props;
+    const { combatSkills, magicSkills } = this.props;
+    let HP = 0;
+    let MP = 0;
+    HP = 30 + parseInt(pvit) * 3;
+    MP = 15 + parseInt(pint) * 2 + parseInt(pcon) * 2;
+    this._parseAbilities(abilities).map((s, i) => {
+      if (s.name === "魔法知识能力") MP += 2;
+    });
+    this._parseSkills(skills).map((s, i) => {
+      if (combatSkills.hasOwnProperty(s.name)) HP += 1;
+      if (magicSkills.hasOwnProperty(s.name)) MP += 1;
+    });
     return (
       <div style={{margin:"20px 0",textAlign:"left"}}>
         <p>{ introduction + " - " + name }</p>
@@ -225,6 +237,11 @@ class Card extends Component {
             <br/>
           </div>
         ) : ( <noscript/> )}
+        <p>
+          <span>HP=</span><span style={{color:"red"}}>{ HP }</span>
+          <span> </span>
+          <span>MP=</span><span style={{color:"red"}}>{ MP }</span>
+        </p>
         <p>
           <span>总金额：</span>
           <span style={{color:"red"}}>{ this._getPriceDescription(priceSum) }</span>

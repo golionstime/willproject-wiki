@@ -19,6 +19,8 @@ class CharacterPage extends Component {
       msg: "Loading...",
       initialized: false,
       data: {},
+      combatSkills: {},
+      magicSkills: {},
       html: {
         appear: "",
         story: "",
@@ -32,29 +34,53 @@ class CharacterPage extends Component {
   }
 
   _init() {
-    CardService.getCard(DATA.CARD_ID, (status, data) => {
-      if (status) {
-        Wiki.convertPageDataToHtml(data.data.appear, (appearHtmlData) => {
-          Wiki.convertPageDataToHtml(data.data.story, (storyHtmlData) => {
-            Wiki.convertPageDataToHtml(data.data.addition, (additionHtmlData) => {
-              this.setState({
-                msg: "",
-                data: data,
-                html: {
-                  appear: appearHtmlData,
-                  story: storyHtmlData,
-                  addition: additionHtmlData
-                },
-                initialized: true
+    let _this = this;
+    // 流派
+    Data.loadBuildDataFromServer("style", () => {
+      if ((typeof (Data.data["style"].length) !== "undefined") && (Data.data["style"].length > 0)) {
+        Data.data["style-list"] = [];
+        let combatSkills = {}
+        let magicSkills = {}
+        for (let i = 0; i < Data.data["style"].length; i++) {
+          for (let j = 0; j < Data.data["style"][i].list.length; j++) {
+            if (Data.data["style"][i].list[j].type === "combat") {
+              combatSkills[Data.data["style"][i].list[j].name] = true;
+            }
+            if (Data.data["style"][i].list[j].type === "magic") {
+              magicSkills[Data.data["style"][i].list[j].name] = true;
+            }
+          }
+        }
+        CardService.getCard(DATA.CARD_ID, (status, data) => {
+          if (status) {
+            Wiki.convertPageDataToHtml(data.data.appear, (appearHtmlData) => {
+              Wiki.convertPageDataToHtml(data.data.story, (storyHtmlData) => {
+                Wiki.convertPageDataToHtml(data.data.addition, (additionHtmlData) => {
+                  _this.setState({
+                    msg: "",
+                    data: data,
+                    combatSkills: combatSkills,
+                    magicSkills: magicSkills,
+                    html: {
+                      appear: appearHtmlData,
+                      story: storyHtmlData,
+                      addition: additionHtmlData
+                    },
+                    initialized: true
+                  });
+                });
               });
             });
-          });
+            browserHistory.replace("/character/" + DATA.CARD_ID + "/" + data.data.name);
+          } else {
+            _this.setState({
+              msg: "CHARACTER NOT FOUND"
+            });
+          }
         });
-        browserHistory.replace("/character/" + DATA.CARD_ID + "/" + this.state.data.data.name);
-      }
-      else {
-        this.setState({
-          msg: "CHARACTER NOT FOUND"
+      } else {
+        _this.setState({
+          msg: "LOAD CONF FAILED"
         });
       }
     });
@@ -188,6 +214,8 @@ class CharacterPage extends Component {
           weightSum    = { this.state.data.data.weightSum }
           arbCbtSkl1   = { this._mustStr(this.state.data.data.arbCbtSkl1) }
           arbKlgSkl1   = { this._mustStr(this.state.data.data.arbKlgSkl1) }
+          combatSkills = { this.state.combatSkills }
+          magicSkills  = { this.state.magicSkills }
         />
         <div style={{fontSize:"small",margin:"10px 0"}}>
           <hr/>
