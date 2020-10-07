@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Popover } from "antd";
 import Data from '../services/Data';
 
 /**
@@ -126,7 +127,7 @@ class Card extends Component {
     const { creator, name, introduction, gender, age, height, weight, skin, hair, eye, hand, appear, story, addition } = this.props;
     const { xp, xpCost, radio, pint, pstr, pagi, pvit, pcrm, pcal, ppow, pdex, pfor, pcon } = this.props;
     const { professions, abilities, skills, equips, items, originalObjs, priceSum, weightSum } = this.props;
-    const { combatSkills, magicSkills } = this.props;
+    const { combatSkills, magicSkills, allSKills } = this.props;
     // pow:元素里 flo:元素流出
     // A:Aqua F:Fire W:Wind E:Earth L:Light D:Dark
     let powA = Math.abs(parseInt(pint) + parseInt(pcal));
@@ -149,6 +150,18 @@ class Card extends Component {
     let AD = Math.floor((parseFloat(pcal) + parseFloat(pdex)) / 2.0);
     let AP = 2;
     let COV = 2 + parseInt(pvit);
+    let SPEED = 2 + Math.floor((parseFloat(pstr) + parseFloat(pagi)) / 2.0);
+    let LOAD = 0;
+    switch (parseInt(pstr)) {
+      case 1: LOAD = 15; break;
+      case 2: LOAD = 30; break;
+      case 3: LOAD = 50; break;
+      case 4: LOAD = 80; break;
+      case 5: LOAD = 120; break;
+      case 6: LOAD = 170; break;
+      case 7: LOAD = 230; break;
+      case 8: LOAD = 300; break;
+    }
     HP = 30 + parseInt(pvit) * 3;
     MP = 15 + parseInt(pint) * 2 + parseInt(pcon) * 2;
     this._parseAbilities(abilities).map((s, i) => {
@@ -251,7 +264,53 @@ class Card extends Component {
         { skills !== "" ? (
           <div>
             <p style={{fontWeight:"bold"}}>魔法、技能与优点：</p>
-            <p>{ this._parseSkills(skills).map((s, i) => <span style={{marginRight:15}}>{ s.name + " " }</span>) }</p>
+            <p>{ this._parseSkills(skills).map((s, i) =>
+              <Popover overlayStyle={{width:400}} content={
+                <div>
+                  { allSKills.hasOwnProperty(s.name) ? (
+                    <div>
+                      { 'combat_type' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>战技类型</p><p>{ allSKills[s.name]['combat_type'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'combat_bonus' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>战技增幅</p><p>{ allSKills[s.name]['combat_bonus'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'combat_cost' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>战技消耗</p><p>{ allSKills[s.name]['combat_cost'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'combat_range' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>战技射程</p><p>{ allSKills[s.name]['combat_range'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'magic_level' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>魔法等级</p><p>{ allSKills[s.name]['magic_level'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'magic_type' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>魔法类型</p><p>{ allSKills[s.name]['magic_type'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'magic_cost' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>魔法消耗</p><p>{ allSKills[s.name]['magic_cost'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'magic_range' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>魔法射程</p><p>{ allSKills[s.name]['magic_range'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'bonus' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>增幅</p><p>{ allSKills[s.name]['bonus'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'special' in allSKills[s.name] ? (
+                        <div><p style={{fontWeight:"bold"}}>特殊</p><p>{ allSKills[s.name]['special'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      <p style={{fontWeight:"bold"}}>效果</p><p>{ allSKills[s.name]['description'] }</p><br/>
+                    </div>
+                  ) : ( <div>NOT FOUND</div> )}
+                </div>
+              } title={ s.name }>
+                <a href="javascript:void(0);">
+                  <div style={{display:"inline-block",margin:5,width:160,fontSize:"small"}}>
+                    <span style={{marginRight:15}}>{ s.name + " " }</span>
+                  </div>
+                </a>
+              </Popover>
+            )}</p>
             <br/>
           </div>
         ) : ( <noscript/> )}
@@ -298,6 +357,11 @@ class Card extends Component {
           <span>LUCK（幸运点）=</span><span style={{color:"red"}}>{ LUCK }</span>
           <span> </span>
           <span style={{marginLeft:20}}>WILL（意志点）=</span><span style={{color:"red"}}>{ WILL }</span>
+        </p>
+        <p>
+          <span>SPEED（速度）=</span><span style={{color:"red"}}>{ SPEED }</span>
+          <span> </span>
+          <span style={{marginLeft:20}}>LOAD（负重）=</span><span style={{color:"red"}}>{ LOAD }</span>
         </p>
         <p>
           <span>总金额：</span>

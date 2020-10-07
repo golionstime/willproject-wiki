@@ -21,6 +21,7 @@ class CharacterPage extends Component {
       data: {},
       combatSkills: {},
       magicSkills: {},
+      allSKills: {},
       html: {
         appear: "",
         story: "",
@@ -41,14 +42,16 @@ class CharacterPage extends Component {
         Data.data["style-list"] = [];
         let combatSkills = {}
         let magicSkills = {}
+        let allSKills = {}
         for (let i = 0; i < Data.data["style"].length; i++) {
           for (let j = 0; j < Data.data["style"][i].list.length; j++) {
-            if (Data.data["style"][i].list[j].type === "combat") {
-              combatSkills[Data.data["style"][i].list[j].name] = true;
+            let skill = Data.data["style"][i].list[j];
+            if (skill.type === "combat") {
+              combatSkills[skill.name] = true;
+            } else if (skill.type === "magic") {
+              magicSkills[skill.name] = true;
             }
-            if (Data.data["style"][i].list[j].type === "magic") {
-              magicSkills[Data.data["style"][i].list[j].name] = true;
-            }
+            allSKills[skill.name] = skill;
           }
         }
         CardService.getCard(DATA.CARD_ID, (status, data) => {
@@ -61,6 +64,7 @@ class CharacterPage extends Component {
                     data: data,
                     combatSkills: combatSkills,
                     magicSkills: magicSkills,
+                    allSKills: allSKills,
                     html: {
                       appear: appearHtmlData,
                       story: storyHtmlData,
@@ -216,6 +220,7 @@ class CharacterPage extends Component {
           arbKlgSkl1   = { this._mustStr(this.state.data.data.arbKlgSkl1) }
           combatSkills = { this.state.combatSkills }
           magicSkills  = { this.state.magicSkills }
+          allSKills    = { this.state.allSKills }
         />
         <div style={{fontSize:"small",margin:"10px 0"}}>
           <hr/>
