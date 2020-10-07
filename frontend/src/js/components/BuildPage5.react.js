@@ -438,7 +438,7 @@ class BuildPage5 extends Component {
           <span>总金额：</span>
           <span style={{color:"red"}}>{ Build.getPriceDescription(priceSum) }</span>
           <span style={{marginLeft:20}}>总负重：</span>
-          <span style={{color:"red"}}>{ weightSum }</span>
+          <span style={{color:"red"}}>{ Data.mustFloat(weightSum, 0.0, 2) }</span>
           <span>KG</span>
         </p>
       </div>

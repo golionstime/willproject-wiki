@@ -12,6 +12,14 @@ var Data = {
   
   data: {},
 
+  mustFloat(x, defaultVal=0.0, fraction=2) {
+    if (typeof(x) == "undefined") {
+      return defaultVal;
+    }
+    if (x === "") return defaultVal;
+    return parseFloat(x.toString()).toFixed(fraction);
+  },
+
   getItem(itemName) {
     if (typeof(this.data[itemName]) == "undefined") {
       this.data[itemName] = this.getLocalStorage(this.prefix + itemName);
@@ -23,7 +31,7 @@ var Data = {
     if (typeof(this.data[itemName]) == "undefined") {
       this.data[itemName] = this.getLocalStorage(this.prefix + itemName);
     }
-    if (this.data[itemName] == "") return defaultValue;
+    if (this.data[itemName] === "") return defaultValue;
     return (typeof(this.data[itemName]) == "string" ? parseInt(this.data[itemName]) : this.data[itemName]);
   },
 

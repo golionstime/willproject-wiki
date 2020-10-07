@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Data from '../services/Data';
 
 /**
  * @Author: Golion
@@ -142,6 +143,11 @@ class Card extends Component {
     let floD = 0;
     let HP = 0;
     let MP = 0;
+    let WILL = parseInt(ppow) + parseInt(pfor);
+    let LUCK = Math.min(parseInt(pint), parseInt(pstr), parseInt(pagi), parseInt(pvit), parseInt(pcrm),
+                        parseInt(pcal), parseInt(ppow), parseInt(pdex), parseInt(pfor), parseInt(pcon));
+    let AD = Math.floor((parseFloat(pcal) + parseFloat(pdex)) / 2.0);
+    let AP = 2;
     HP = 30 + parseInt(pvit) * 3;
     MP = 15 + parseInt(pint) * 2 + parseInt(pcon) * 2;
     this._parseAbilities(abilities).map((s, i) => {
@@ -150,6 +156,8 @@ class Card extends Component {
     this._parseSkills(skills).map((s, i) => {
       if (combatSkills.hasOwnProperty(s.name)) HP += 1;
       if (magicSkills.hasOwnProperty(s.name)) MP += 1;
+      if (s.name.startsWith("迅捷行动")) AP += 1;
+      if (s.name.startsWith("强运")) LUCK += 1;
       if (s.name === "光之力") powL += 2;
       if (s.name === "暗之力") powD += 2;
       if (s.name.startsWith("自然元素")) {
@@ -275,15 +283,28 @@ class Card extends Component {
         ) : ( <noscript/> )}
         <p>
           <span>HP=</span><span style={{color:"red"}}>{ HP }</span>
-          <span> </span>
+        </p>
+        <p>
           <span>MP=</span><span style={{color:"red"}}>{ MP }</span>
+        </p>
+        <p>
+          <span>AP（行动骰）=</span><span style={{color:"red"}}>{ AP }</span>
+        </p>
+        <p>
+          <span>AD（行动数）=</span><span style={{color:"red"}}>{ AD }</span>
+        </p>
+        <p>
+          <span>幸运点=</span><span style={{color:"red"}}>{ LUCK }</span>
+        </p>
+        <p>
+          <span>意志点=</span><span style={{color:"red"}}>{ WILL }</span>
         </p>
         <p>
           <span>总金额：</span>
           <span style={{color:"red"}}>{ this._getPriceDescription(priceSum) }</span>
           <span> </span>
           <span style={{marginLeft:20}}>总负重：</span>
-          <span style={{color:"red"}}>{ weightSum }</span>
+          <span style={{color:"red"}}>{ Data.mustFloat(weightSum, 0.0, 2) }</span>
           <span>KG</span>
         </p>
         <br/>
