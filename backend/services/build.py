@@ -52,13 +52,13 @@ class BuildClient:
     def setConf(confName, confJsonStr):
         if (confJsonStr is None) or (confJsonStr == ''):
             return {
-                "status": "failed"
+                "status": "failed err_code=101"
             }
         try:
             json.dumps(json.loads(confJsonStr))
         except:
             return {
-                "status": "failed"
+                "status": "failed err_code=102"
             }
         try:
             filePath = ABS_PATH + '/wpbuild/' + confName + '.conf'
@@ -69,7 +69,7 @@ class BuildClient:
             fout.close()
         except:
             return {
-                "status": "failed"
+                "status": "failed err_code=103"
             }
         return {
             "status": "succeed"
