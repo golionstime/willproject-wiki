@@ -54,7 +54,18 @@ class BuildPage4 extends Component {
   }
 
   _handleChangeStyleTransfer(targetKeys) {
-    Data.setItem("custom-skills", "");
+    let skillInfo = Build.getSkillInfo(targetKeys);
+    let selectedSkills = skillInfo.skills;
+    let customSkills = Data.getItem("custom-skills").split(",");
+    let customSkillsNew = [];
+    for (let j=0; j<customSkills.length; j++) {
+      if (customSkills[j] === "") continue;
+      let _skillInfo = customSkills[j].split("|");
+      if (_skillInfo[0] in selectedSkills) {
+        customSkillsNew.push(customSkills[j]);
+      }
+    }
+    Data.setItem("custom-skills", customSkillsNew.join(","));
     Data.setItem("style-target-keys", targetKeys.join(","));
     this.setState({ targetKeys });
   }
@@ -89,6 +100,7 @@ class BuildPage4 extends Component {
       let totalSkillNum3 = 0;  // 长兵械斗
       let totalSkillNum4 = 0;  // 大型械斗
       let totalSkillNum5 = 0;  // 双持
+      let totalSkillNum6 = 0;  // 防护
       for (let skillName in selectedSkills) {
         let skillLevel = Build.getSkillLevel(skillName);
         if (skillLevel <= 0) continue;
@@ -111,6 +123,7 @@ class BuildPage4 extends Component {
               totalSkillNum4 += 1;
               break;
             case "双持战技": totalSkillNum5 += 1; break;
+            case "防护战技": totalSkillNum6 += 1; break;
           }
         }
       }
@@ -129,6 +142,7 @@ class BuildPage4 extends Component {
             case "长兵械斗战技": counter = totalSkillNum3; break;
             case "大型械斗战技": counter = totalSkillNum4; break;
             case "双持战技": counter = totalSkillNum5; break;
+            case "防护战技": counter = totalSkillNum6; break;
           }
         }
         let requirements = [];
