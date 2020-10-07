@@ -374,7 +374,7 @@
           "S|语言L1|1"
         ],
         "description": "选择一种语言，基于消耗的技能点获得效果，L2让你拥有流畅的语言能力",
-        "cost": 2,
+        "cost": 1,
         "type_detail": "优点",
         "type": "advantage",
         "name": "语言L2"
@@ -384,7 +384,7 @@
           "S|语言L2|1"
         ],
         "description": "选择一种语言，基于消耗的技能点获得效果，L2让你连相关方言都十分熟悉",
-        "cost": 3,
+        "cost": 1,
         "type_detail": "优点",
         "type": "advantage",
         "name": "语言L3"
@@ -627,7 +627,7 @@
         "cost": 3,
         "type_detail": "长兵械斗战技",
         "type": "combat",
-        "name": "见缝插针 "
+        "name": "见缝插针X"
       },
       {
         "requirement": [
@@ -674,7 +674,7 @@
         "cost": 3,
         "type_detail": "长兵械斗战技",
         "type": "combat",
-        "name": "格挡反击 "
+        "name": "格挡反击X"
       },
       {
         "requirement": [
