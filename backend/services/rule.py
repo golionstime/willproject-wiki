@@ -18,7 +18,7 @@ class RuleEngine:
     @staticmethod
     def readConf(confName):
         try:
-             file = open(ABS_PATH + '/wprule/' + confName + '.conf')
+             file = open(ABS_PATH + '/wprule/' + confName + '.json')
         except:
              return []
         try:

@@ -35,7 +35,7 @@ class BuildClient:
     @staticmethod
     def readConf(confName):
         try:
-             file = open(ABS_PATH + '/wpbuild/' + confName + '.conf')
+             file = open(ABS_PATH + '/wpbuild/' + confName + '.json')
         except:
              return []
         try:
@@ -61,7 +61,7 @@ class BuildClient:
                 "status": "failed err_code=102"
             }
         try:
-            filePath = ABS_PATH + '/wpbuild/' + confName + '.conf'
+            filePath = ABS_PATH + '/wpbuild/' + confName + '.json'
             if os.path.exists(filePath):
                 os.remove(filePath)
             fout = open(filePath, 'wb')
