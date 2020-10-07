@@ -338,6 +338,12 @@ let Build = {
       let _re = _requirements[i].split("|");
       if (_added) _descr += " 及 ";
       switch (_re[0]) {
+        case 'R':
+          _descr += "种族-";
+          break;
+        case 'X':
+          _descr += "XP-";
+          break;
         case 'P':
           _descr += "属性-";
           break;
@@ -367,6 +373,14 @@ let Build = {
   // 检查是否满足技能需求
   checkSkillRequirement(type, name, value, counter = 0) {
     switch (type) {
+      case 'R':
+        switch (name) {
+          case '血族':
+            return Data.getItem("race-list-select") === "血族";
+        }
+        break;
+      case 'X':
+        return parseInt(Data.getItem("params-xp")) >= value;
       case 'P':
         switch (name) {
           case '智力': if (Data.getItem("params-int") >= value) return true; break;
