@@ -55,8 +55,19 @@ class BuildPage3 extends Component {
   }
 
   _handleChangeProfessionTransfer(targetKeys) {
+    let abilityInfo = Build.getAbilityInfo(this.state.targetKeys);
+    let selectedAbilities = abilityInfo.abilities;
+    let customAbilities = Data.getItem("custom-abilities").split(",");
+    let customAbilitiesNew = [];
+    for (let j=0; j<customAbilities.length; j++) {
+      if (customAbilities[j] === "") continue;
+      let _abilityInfo = customAbilities[j].split("|");
+      if (_abilityInfo[0] in selectedAbilities) {
+        customAbilitiesNew.push(customAbilities[j]);
+      }
+    }
     Data.setItem("custom-professions", "");
-    Data.setItem("custom-abilities", "");
+    Data.setItem("custom-abilities", customAbilitiesNew.join(","));
     Data.setItem("extra-abilities", "");
     Data.setItem("custom-skills", "");
     Data.setItem("profession-target-keys", targetKeys.join(","));

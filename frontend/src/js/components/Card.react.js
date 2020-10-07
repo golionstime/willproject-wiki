@@ -148,6 +148,7 @@ class Card extends Component {
                         parseInt(pcal), parseInt(ppow), parseInt(pdex), parseInt(pfor), parseInt(pcon));
     let AD = Math.floor((parseFloat(pcal) + parseFloat(pdex)) / 2.0);
     let AP = 2;
+    let COV = 2 + parseInt(pvit);
     HP = 30 + parseInt(pvit) * 3;
     MP = 15 + parseInt(pint) * 2 + parseInt(pcon) * 2;
     this._parseAbilities(abilities).map((s, i) => {
@@ -282,22 +283,21 @@ class Card extends Component {
           </div>
         ) : ( <noscript/> )}
         <p>
-          <span>HP=</span><span style={{color:"red"}}>{ HP }</span>
+          <span>HP（生命值）=</span><span style={{color:"red"}}>{ HP }</span>
+          <span> </span>
+          <span style={{marginLeft:20}}>MP（魔法值）=</span><span style={{color:"red"}}>{ MP }</span>
+          <span> </span>
+          <span style={{marginLeft:20}}>COV（恢复力）=</span><span style={{color:"red"}}>{ COV }</span>
         </p>
         <p>
-          <span>MP=</span><span style={{color:"red"}}>{ MP }</span>
+          <span>AP（行动数）=</span><span style={{color:"red"}}>{ AP }</span>
+          <span> </span>
+          <span style={{marginLeft:20}}>AD（行动骰）=</span><span style={{color:"red"}}>{ AD }</span>
         </p>
         <p>
-          <span>AP（行动骰）=</span><span style={{color:"red"}}>{ AP }</span>
-        </p>
-        <p>
-          <span>AD（行动数）=</span><span style={{color:"red"}}>{ AD }</span>
-        </p>
-        <p>
-          <span>幸运点=</span><span style={{color:"red"}}>{ LUCK }</span>
-        </p>
-        <p>
-          <span>意志点=</span><span style={{color:"red"}}>{ WILL }</span>
+          <span>LUCK（幸运点）=</span><span style={{color:"red"}}>{ LUCK }</span>
+          <span> </span>
+          <span style={{marginLeft:20}}>WILL（意志点）=</span><span style={{color:"red"}}>{ WILL }</span>
         </p>
         <p>
           <span>总金额：</span>
