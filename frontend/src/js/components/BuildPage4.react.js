@@ -155,42 +155,47 @@ class BuildPage4 extends Component {
             { isCombat ? (
               <div>
                 { 'combat_type' in skill ? (
-                  <div><p style={{fontWeight:"bold"}}>战技类型</p><p>{ skill.combat_type }</p><br/></div>
+                  <div><p style={{fontWeight:"bold"}}>战技类型</p><p>{ skill['combat_type'] }</p><br/></div>
                 ) : ( <noscript/> ) }
                 { 'combat_bonus' in skill ? (
-                  <div><p style={{fontWeight:"bold"}}>战技增幅</p><p>{ skill.combat_bonus }</p><br/></div>
+                  <div><p style={{fontWeight:"bold"}}>战技增幅</p><p>{ skill['combat_bonus'] }</p><br/></div>
                 ) : ( <noscript/> ) }
                 { 'combat_cost' in skill ? (
-                  <div><p style={{fontWeight:"bold"}}>战技消耗</p><p>{ skill.combat_cost }</p><br/></div>
+                  <div><p style={{fontWeight:"bold"}}>战技消耗</p><p>{ skill['combat_cost'] }</p><br/></div>
                 ) : ( <noscript/> ) }
                 { 'combat_range' in skill ? (
-                  <div><p style={{fontWeight:"bold"}}>战技射程</p><p>{ skill.combat_range }</p><br/></div>
+                  <div><p style={{fontWeight:"bold"}}>战技射程</p><p>{ skill['combat_range'] }</p><br/></div>
                 ) : ( <noscript/> ) }
               </div>
             ) : ( <noscript/> )}
             { isMagic ? (
               <div>
                 { 'magic_level' in skill ? (
-                  <div><p style={{fontWeight:"bold"}}>魔法等级</p><p>{ skill.magic_level }</p><br/></div>
+                  <div><p style={{fontWeight:"bold"}}>魔法等级</p><p>{ skill['magic_level'] }</p><br/></div>
                 ) : ( <noscript/> ) }
                 { 'magic_type' in skill ? (
-                  <div><p style={{fontWeight:"bold"}}>魔法类型</p><p>{ skill.magic_type }</p><br/></div>
+                  <div><p style={{fontWeight:"bold"}}>魔法类型</p><p>{ skill['magic_type'] }</p><br/></div>
                 ) : ( <noscript/> ) }
                 { 'magic_cost' in skill ? (
-                  <div><p style={{fontWeight:"bold"}}>魔法消耗</p><p>{ skill.magic_cost }</p><br/></div>
+                  <div><p style={{fontWeight:"bold"}}>魔法消耗</p><p>{ skill['magic_cost'] }</p><br/></div>
                 ) : ( <noscript/> ) }
                 { 'magic_range' in skill ? (
-                  <div><p style={{fontWeight:"bold"}}>魔法射程</p><p>{ skill.magic_range }</p><br/></div>
+                  <div><p style={{fontWeight:"bold"}}>魔法射程</p><p>{ skill['magic_range'] }</p><br/></div>
                 ) : ( <noscript/> ) }
               </div>
             ) : ( <noscript/> )}
             { 'bonus' in skill ? (
-              <div><p style={{fontWeight:"bold"}}>增幅</p><p>{ skill.bonus }</p><br/></div>
+              <div><p style={{fontWeight:"bold"}}>增幅</p><p>{ skill['bonus'] }</p><br/></div>
             ) : ( <noscript/> ) }
             { 'special' in skill ? (
-              <div><p style={{fontWeight:"bold"}}>特殊</p><p>{ skill.special }</p><br/></div>
+              <div><p style={{fontWeight:"bold"}}>特殊</p><p>{ skill['special'] }</p><br/></div>
             ) : ( <noscript/> ) }
-            <p style={{fontWeight:"bold"}}>效果</p><p>{ skill.description }</p><br/>
+            { 'limit' in skill ? (
+              <div><p style={{fontWeight:"bold"}}>限制</p><p>{ skill['limit'] }</p><br/></div>
+            ) : ( <noscript/> ) }
+            { 'description' in skill ? (
+              <div><p style={{fontWeight:"bold"}}>效果</p><p>{ skill['description'] }</p><br/></div>
+            ) : ( <noscript/> ) }
             <p style={{fontWeight:"bold"}}>
               <span>学习消耗：</span>
               <span style={{color:"red"}}>{ skill.cost }</span>

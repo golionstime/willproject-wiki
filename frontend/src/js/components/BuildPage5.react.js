@@ -360,6 +360,15 @@ class BuildPage5 extends Component {
                         { Build.checkEquipProp(s.classid, s.equipid, "armor_effect") ? (
                           <p>防具效果：{ Build.getEquipProp(s.classid, s.equipid, "armor_effect") }</p>
                         ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_effect_sting") ? (
+                          <p>穿刺防御：{ Build.getEquipProp(s.classid, s.equipid, "armor_effect_sting") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_effect_slash") ? (
+                          <p>挥砍防御：{ Build.getEquipProp(s.classid, s.equipid, "armor_effect_slash") }</p>
+                        ) : ( <noscript/> ) }
+                        { Build.checkEquipProp(s.classid, s.equipid, "armor_effect_blunt") ? (
+                          <p>钝击防御：{ Build.getEquipProp(s.classid, s.equipid, "armor_effect_blunt") }</p>
+                        ) : ( <noscript/> ) }
                         { Build.checkEquipProp(s.classid, s.equipid, "armor_block_active") ? (
                           <p>主动格挡：{ Build.getEquipProp(s.classid, s.equipid, "armor_block_active") }</p>
                         ) : ( <noscript/> ) }

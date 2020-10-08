@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Popover } from "antd";
 import Data from '../services/Data';
+import Build from "../services/Build";
 
 /**
  * @Author: Golion
@@ -127,7 +128,7 @@ class Card extends Component {
     const { creator, name, introduction, gender, age, height, weight, skin, hair, eye, hand, appear, story, addition } = this.props;
     const { xp, xpCost, radio, pint, pstr, pagi, pvit, pcrm, pcal, ppow, pdex, pfor, pcon } = this.props;
     const { professions, abilities, skills, equips, items, originalObjs, priceSum, weightSum } = this.props;
-    const { combatSkills, magicSkills, allSKills } = this.props;
+    const { combatSkills, magicSkills, allSKills, allEquips } = this.props;
     // pow:元素里 flo:元素流出
     // A:Aqua F:Fire W:Wind E:Earth L:Light D:Dark
     let powA = Math.abs(parseInt(pint) + parseInt(pcal));
@@ -171,6 +172,7 @@ class Card extends Component {
       if (combatSkills.hasOwnProperty(s.name)) HP += 1;
       if (magicSkills.hasOwnProperty(s.name)) MP += 1;
       if (s.name.startsWith("迅捷行动")) AP += 1;
+      if (s.name.startsWith("高速移动")) SPEED += 1;
       if (s.name.startsWith("强运")) LUCK += 1;
       if (s.name === "光之力") powL += 2;
       if (s.name === "暗之力") powD += 2;
@@ -270,36 +272,41 @@ class Card extends Component {
                   { allSKills.hasOwnProperty(s.name) ? (
                     <div>
                       { 'combat_type' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>战技类型</p><p>{ allSKills[s.name]['combat_type'] }</p><br/></div>
+                        <div><p>战技类型：{ allSKills[s.name]['combat_type'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'combat_bonus' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>战技增幅</p><p>{ allSKills[s.name]['combat_bonus'] }</p><br/></div>
+                        <div><p>战技增幅：{ allSKills[s.name]['combat_bonus'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'combat_cost' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>战技消耗</p><p>{ allSKills[s.name]['combat_cost'] }</p><br/></div>
+                        <div><p>战技消耗：{ allSKills[s.name]['combat_cost'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'combat_range' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>战技射程</p><p>{ allSKills[s.name]['combat_range'] }</p><br/></div>
+                        <div><p>战技射程：{ allSKills[s.name]['combat_range'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'magic_level' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>魔法等级</p><p>{ allSKills[s.name]['magic_level'] }</p><br/></div>
+                        <div><p>魔法等级：{ allSKills[s.name]['magic_level'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'magic_type' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>魔法类型</p><p>{ allSKills[s.name]['magic_type'] }</p><br/></div>
+                        <div><p>魔法类型：{ allSKills[s.name]['magic_type'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'magic_cost' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>魔法消耗</p><p>{ allSKills[s.name]['magic_cost'] }</p><br/></div>
+                        <div><p>魔法消耗：{ allSKills[s.name]['magic_cost'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'magic_range' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>魔法射程</p><p>{ allSKills[s.name]['magic_range'] }</p><br/></div>
+                        <div><p>魔法射程：{ allSKills[s.name]['magic_range'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'bonus' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>增幅</p><p>{ allSKills[s.name]['bonus'] }</p><br/></div>
+                        <div><p>增幅：{ allSKills[s.name]['bonus'] }</p><br/></div>
                       ) : ( <noscript/> ) }
                       { 'special' in allSKills[s.name] ? (
-                        <div><p style={{fontWeight:"bold"}}>特殊</p><p>{ allSKills[s.name]['special'] }</p><br/></div>
+                        <div><p>特殊：{ allSKills[s.name]['special'] }</p><br/></div>
                       ) : ( <noscript/> ) }
-                      <p style={{fontWeight:"bold"}}>效果</p><p>{ allSKills[s.name]['description'] }</p><br/>
+                      { 'limit' in allSKills[s.name] ? (
+                        <div><p>限制：{ allSKills[s.name]['limit'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'description' in allSKills[s.name] ? (
+                        <div><p>效果：{ allSKills[s.name]['description'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
                     </div>
                   ) : ( <div>NOT FOUND</div> )}
                 </div>
@@ -317,7 +324,76 @@ class Card extends Component {
         { equips !== "" ? (
           <div>
             <p style={{fontWeight:"bold"}}>装备：</p>
-            <p>{ this._parseEquips(equips).map((s, i) => <span><span>{ s.name + " 数量：" }</span><span style={{color:"red",marginRight:15}}>{ s.amount + " " }</span></span>) }</p>
+            <p>{ this._parseEquips(equips).map((s, i) =>
+              <Popover overlayStyle={{width:400}} content={
+                <div>
+                  { allEquips.hasOwnProperty(s.name) ? (
+                    <div>
+                      { 'description' in allEquips[s.name] && allEquips[s.name]['description'] !== "" ? (
+                        <div><p>描述：{ allEquips[s.name]['description'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'weapon_type' in allEquips[s.name] && allEquips[s.name]['weapon_type'] !== "" ? (
+                        <div><p>武器类型：{ allEquips[s.name]['weapon_type'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'weapon_damage' in allEquips[s.name] && allEquips[s.name]['weapon_damage'] !== "" ? (
+                        <div><p>武器伤害：{ allEquips[s.name]['weapon_damage'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'weapon_range' in allEquips[s.name] && allEquips[s.name]['weapon_range'] !== "" ? (
+                        <div><p>武器射程：{ allEquips[s.name]['weapon_range'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'weapon_block' in allEquips[s.name] && allEquips[s.name]['weapon_block'] !== "" ? (
+                        <div><p>武器格挡：{ allEquips[s.name]['weapon_block'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'weapon_critical' in allEquips[s.name] && allEquips[s.name]['weapon_critical'] !== "" ? (
+                        <div><p>武器暴击：{ allEquips[s.name]['weapon_critical'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'weapon_requirement' in allEquips[s.name] && allEquips[s.name]['weapon_requirement'] !== "" ? (
+                        <div><p>武器需求：{ allEquips[s.name]['weapon_requirement'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'weapon_special' in allEquips[s.name] && allEquips[s.name]['weapon_special'] !== "" ? (
+                        <div><p>武器特殊：{ allEquips[s.name]['weapon_special'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_effect' in allEquips[s.name] && allEquips[s.name]['armor_effect'] !== "" ? (
+                        <div><p>防具效果：{ allEquips[s.name]['armor_effect'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_effect_sting' in allEquips[s.name] && allEquips[s.name]['armor_effect_sting'] !== "" ? (
+                        <div><p>穿刺防御：{ allEquips[s.name]['armor_effect_sting'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_effect_slash' in allEquips[s.name] && allEquips[s.name]['armor_effect_slash'] !== "" ? (
+                        <div><p>挥砍防御：{ allEquips[s.name]['armor_effect_slash'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_effect_blunt' in allEquips[s.name] && allEquips[s.name]['armor_effect_blunt'] !== "" ? (
+                        <div><p>钝击防御：{ allEquips[s.name]['armor_effect_blunt'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_block_active' in allEquips[s.name] && allEquips[s.name]['armor_block_active'] !== "" ? (
+                        <div><p>主动格挡：{ allEquips[s.name]['armor_block_active'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_block_passive' in allEquips[s.name] && allEquips[s.name]['armor_block_passive'] !== "" ? (
+                        <div><p>被动格挡：{ allEquips[s.name]['armor_block_passive'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_dexterity' in allEquips[s.name] && allEquips[s.name]['armor_dexterity'] !== "" ? (
+                        <div><p>防具灵活：{ allEquips[s.name]['armor_dexterity'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_requirement' in allEquips[s.name] && allEquips[s.name]['armor_requirement'] !== "" ? (
+                        <div><p>防具需求：{ allEquips[s.name]['armor_requirement'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'armor_special' in allEquips[s.name] && allEquips[s.name]['armor_special'] !== "" ? (
+                        <div><p>防具特殊：{ allEquips[s.name]['armor_special'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                      { 'strength' in allEquips[s.name] && allEquips[s.name]['strength'] !== "" ? (
+                        <div><p>强度：{ allEquips[s.name]['strength'] }</p><br/></div>
+                      ) : ( <noscript/> ) }
+                    </div>
+                  ) : ( <div>NOT FOUND</div> )}
+                </div>
+              } title={ s.name }>
+                <a href="javascript:void(0);">
+                  <div style={{display:"inline-block",margin:5,width:160,fontSize:"small"}}>
+                    <span><span>{ s.name }</span><span style={{color:"#696969",marginRight:15}}>{ " 数量:" + s.amount + " " }</span></span>
+                  </div>
+                </a>
+              </Popover>
+            ) }</p>
             <br/>
           </div>
         ) : ( <noscript/> )}
