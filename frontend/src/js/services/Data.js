@@ -96,7 +96,7 @@ var Data = {
       timeout  : 10000,
       url      : API_SERVER + '/buildconf/' + confName + '/' + Math.random().toString(),
       dataType : 'json',
-      data     : '&confjsonstr=' + confJsonStr,
+      data     : '&confjsonstr=' + encodeURIComponent(confJsonStr),
       success  : function(data) {
         if (data.status === 'succeed') {
           callback(true);

@@ -13,6 +13,7 @@ from common.settings import ABS_PATH
 from common.log import LogClient
 from common.dao import MysqlConn
 from common.utils import randomStr
+from services.page import PageClient
 
 
 class BuildClient:
@@ -71,6 +72,7 @@ class BuildClient:
             return {
                 "status": "failed err_code=103"
             }
+        PageClient.addPageHistory("conf_" + confName, "auto", confJsonStr)
         return {
             "status": "succeed"
         }
