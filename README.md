@@ -2,8 +2,6 @@
 
 本项目为[http://willproject.cn](http://willproject.cn)的源码。
 
-*本项目正在大规模重构中*
-
 ----
 
 ## 「WILL PROJECT」
