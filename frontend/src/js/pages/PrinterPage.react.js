@@ -20,25 +20,80 @@ class PrinterPage extends Component {
         story: "",
         addition: ""
       },
+      combatSkills: {},
+      magicSkills: {},
+      allSKills: {},
+      allEquips: {},
       loading: false,
       creator: Data.getItem("creator"),
       imgPath: "http://www.willproject.cn/static/img/default-character-cover.png",
       isPublic: true,
       msg: ""
     };
-    Wiki.convertPageDataToHtml(Data.getItem("appear"), (appearHtmlData) => {
-      Wiki.convertPageDataToHtml(Data.getItem("story"), (storyHtmlData) => {
-        Wiki.convertPageDataToHtml(Data.getItem("addition"), (additionHtmlData) => {
-          this.setState({
-            html: {
-              appear: appearHtmlData,
-              story: storyHtmlData,
-              addition: additionHtmlData
-            },
-            initialized: true
-          });
+    this._init();
+  }
+
+  _init() {
+    let _this = this;
+    // 流派
+    Data.loadBuildDataFromServer("style", () => {
+      if ((typeof (Data.data["style"].length) !== "undefined") && (Data.data["style"].length > 0)) {
+        Data.data["style-list"] = [];
+        let combatSkills = {}
+        let magicSkills = {}
+        let allSKills = {}
+        for (let i = 0; i < Data.data["style"].length; i++) {
+          for (let j = 0; j < Data.data["style"][i].list.length; j++) {
+            let skill = Data.data["style"][i].list[j];
+            if (skill.type === "combat") {
+              combatSkills[skill.name] = true;
+            } else if (skill.type === "magic") {
+              magicSkills[skill.name] = true;
+            }
+            allSKills[skill.name] = skill;
+          }
+        }
+        // 装备
+        Data.loadBuildDataFromServer("equip", () => {
+          if ((typeof (Data.data["equip"].length) !== "undefined") && (Data.data["equip"].length > 0)) {
+            Data.data["equip-class-list"] = [];
+            let allEquips = {}
+            for (let i = 0; i < Data.data["equip"].length; i++) {
+              for (let j = 0; j < Data.data["equip"][i].list.length; j++) {
+                let equip = Data.data["equip"][i].list[j];
+                allEquips[equip.name] = equip;
+              }
+            }
+            // 人物
+            Wiki.convertPageDataToHtml(Data.getItem("appear"), (appearHtmlData) => {
+              Wiki.convertPageDataToHtml(Data.getItem("story"), (storyHtmlData) => {
+                Wiki.convertPageDataToHtml(Data.getItem("addition"), (additionHtmlData) => {
+                  _this.setState({
+                    combatSkills: combatSkills,
+                    magicSkills: magicSkills,
+                    allSKills: allSKills,
+                    allEquips: allEquips,
+                    html: {
+                      appear: appearHtmlData,
+                      story: storyHtmlData,
+                      addition: additionHtmlData
+                    },
+                    initialized: true
+                  });
+                });
+              });
+            });
+          } else {
+            _this.setState({
+              msg: "LOAD CONF[EQUIP] FAILED"
+            });
+          }
         });
-      });
+      } else {
+        _this.setState({
+          msg: "LOAD CONF[STYLE] FAILED"
+        });
+      }
     });
   }
 
@@ -134,6 +189,12 @@ class PrinterPage extends Component {
           originalObjs = { Data.getItem("original-objs") }
           priceSum     = { Data.getItem("price-sum") }
           weightSum    = { Data.getItem("weight-sum") }
+          arbCbtSkl1   = { Data.getItem("arbitrary-combat-skill-1") }
+          arbKlgSkl1   = { Data.getItem("arbitrary-knowledge-skill-1") }
+          combatSkills = { this.state.combatSkills }
+          magicSkills  = { this.state.magicSkills }
+          allSKills    = { this.state.allSKills }
+          allEquips    = { this.state.allEquips }
         />
         <div style={{margin:"10px 0"}}>
           <hr/>

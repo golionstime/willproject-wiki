@@ -90,11 +90,7 @@ class BuildPage3 extends Component {
   _setItem(itemName) {
     return (evt) => {
       Data.setItem(itemName, evt.target.value);
-      let _data = this.state.data;
-      _data[itemName] = evt.target.value;
-      this.setState({
-        data: _data
-      });
+      this.setState({refresh: true});
     }
   }
 

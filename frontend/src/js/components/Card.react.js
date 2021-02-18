@@ -145,7 +145,7 @@ class Card extends Component {
     let floD = 0;
     let HP = 0;
     let MP = 0;
-    let WILL = parseInt(ppow) + parseInt(pfor);
+    let WILL = Math.floor((parseInt(ppow) + parseInt(pfor)) / 2.0);
     let LUCK = Math.min(parseInt(pint), parseInt(pstr), parseInt(pagi), parseInt(pvit), parseInt(pcrm),
                         parseInt(pcal), parseInt(ppow), parseInt(pdex), parseInt(pfor), parseInt(pcon));
     let AD = Math.floor((parseFloat(pcal) + parseFloat(pdex)) / 2.0);
@@ -425,14 +425,14 @@ class Card extends Component {
           <span style={{marginLeft:20}}>COV（恢复力）=</span><span style={{color:"red"}}>{ COV }</span>
         </p>
         <p>
-          <span>AP（行动数）=</span><span style={{color:"red"}}>{ AP }</span>
+          <span><a href="http://willproject.cn/page/TRPG-AP">AP（行动数）</a>=</span><span style={{color:"red"}}>{ AP }</span>
           <span> </span>
-          <span style={{marginLeft:20}}>AD（行动骰）=</span><span style={{color:"red"}}>{ AD }</span>
+          <span style={{marginLeft:20}}><a href="http://willproject.cn/page/TRPG-AD">AD（行动骰）</a>=</span><span style={{color:"red"}}>{ AD }</span>
         </p>
         <p>
-          <span>LUCK（幸运点）=</span><span style={{color:"red"}}>{ LUCK }</span>
+          <span><a href="http://willproject.cn/page/TRPG-幸运点">LUCK（幸运点）</a>=</span><span style={{color:"red"}}>{ LUCK }</span>
           <span> </span>
-          <span style={{marginLeft:20}}>WILL（意志点）=</span><span style={{color:"red"}}>{ WILL }</span>
+          <span style={{marginLeft:20}}><a href="http://willproject.cn/page/TRPG-意志点">WILL（意志点）</a>=</span><span style={{color:"red"}}>{ WILL }</span>
         </p>
         <p>
           <span>SPEED（速度）=</span><span style={{color:"red"}}>{ SPEED }</span>
